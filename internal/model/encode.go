@@ -3,12 +3,12 @@ package model
 import "strings"
 
 type Encode struct {
-	Algorithm      string
-	Expiration     string
-	PublicKeyPath  string
-	PrivateKeyPath string
-	PayloadStr     string
-	Payload        map[string]any
+	Algorithm     string
+	Expiration    string
+	PublicKeyPath string
+	Issuer        string
+	PayloadStr    string
+	Payload       map[string]any
 }
 
 func (e *Encode) Execute() {
