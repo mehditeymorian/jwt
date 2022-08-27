@@ -66,7 +66,7 @@ func main(cmd *cobra.Command, args []string) {
 
 	survey.Ask(qs, &encode, nil)
 
-	token, err := jwt.Encode(encode)
+	token, err := jwt.Encode(encode, cfg.EncodeKey())
 	if err != nil {
 		log.Fatalf("failed to generate JWT token: %w", err)
 	}
