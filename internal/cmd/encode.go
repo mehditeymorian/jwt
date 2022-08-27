@@ -32,16 +32,16 @@ func main(cmd *cobra.Command, args []string) {
 			Name: "Algorithm",
 			Prompt: &survey.Select{ //nolint:exhaustruct,exhaustivestruct
 				Message: "Algorithm",
-				Options: cfg.JWT.Algorithms,
-				Default: cfg.JWT.Algorithms[0],
+				Options: cfg.Algorithms,
+				Default: cfg.Algorithms[0],
 			},
 		},
 		{
 			Name: "Expiration",
 			Prompt: &survey.Select{ //nolint:exhaustruct,exhaustivestruct
 				Message: "Expiration",
-				Options: cfg.JWT.Expirations,
-				Default: cfg.JWT.Expirations[0],
+				Options: cfg.Expirations,
+				Default: cfg.Expirations[0],
 			},
 		},
 		{
