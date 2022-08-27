@@ -3,6 +3,12 @@ package config
 type Config struct {
 	Algorithms  []string
 	Expirations []string
+	Rsa         Rsa
+}
+
+type Rsa struct {
+	PublicKey  string
+	PrivateKey string
 }
 
 func Load() Config {
