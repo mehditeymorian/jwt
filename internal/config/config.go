@@ -19,11 +19,19 @@ const (
 	Name   = "jwt"
 )
 
+type SigningMethod string
+
+const (
+	RSA  SigningMethod = "rsa"
+	HMac SigningMethod = "hmac"
+)
+
 type Config struct {
 	Algorithms  []string
 	Expirations []string
 
-	Rsa Rsa `koanf:"rsa"`
+	SigningMethod SigningMethod `koanf:"signing_method"`
+	Rsa           Rsa           `koanf:"rsa"`
 }
 
 type Rsa struct {

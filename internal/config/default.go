@@ -25,6 +25,8 @@ func Default() Config {
 			"8760h",
 		},
 
+		SigningMethod: RSA,
+
 		Rsa: Rsa{
 			PublicKey:  "",
 			PrivateKey: "",
