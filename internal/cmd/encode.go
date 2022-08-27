@@ -45,10 +45,9 @@ func main(cmd *cobra.Command, args []string) {
 			},
 		},
 		{
-			Name: "PayloadStr",
+			Name: "Subject",
 			Prompt: &survey.Multiline{ //nolint:exhaustruct,exhaustivestruct
-				Message: "Enter Payload Fields",
-				Help:    "Format: KEY:VALUE",
+				Message: "Subject",
 			},
 		},
 		{
@@ -58,16 +57,14 @@ func main(cmd *cobra.Command, args []string) {
 			},
 		},
 		{
-			Name: "PublicKeyPath",
+			Name: "Audience",
 			Prompt: &survey.Input{ //nolint:exhaustruct,exhaustivestruct
-				Message: "Public Key File Path",
+				Message: "Audience",
 			},
 		},
 	}
 
 	survey.Ask(qs, &encode, nil)
-
-	encode.Execute()
 
 	token, err := jwt.Encode(encode)
 	if err != nil {
