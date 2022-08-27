@@ -1,10 +1,9 @@
 /*
 Copyright © 2022 Mehdi Teymorian
-
 */
 package main
 
-import "jwt-cli/cmd"
+import "github.com/mehditeymorian/jwt/cmd"
 
 func main() {
 	cmd.Execute()

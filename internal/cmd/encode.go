@@ -3,9 +3,9 @@ package cmd
 import (
 	"log"
 
-	"jwt-cli/internal/config"
-	"jwt-cli/internal/jwt"
-	"jwt-cli/internal/model"
+	"github.com/mehditeymorian/jwt/internal/config"
+	"github.com/mehditeymorian/jwt/internal/jwt"
+	"github.com/mehditeymorian/jwt/internal/model"
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/spf13/cobra"

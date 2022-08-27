@@ -1,13 +1,13 @@
-/*Package cmd
+/*
+Package cmd
 Copyright © 2022 Mehdi Teymorian
-
 */
 package cmd
 
 import (
 	"os"
 
-	"jwt-cli/internal/cmd"
+	"github.com/mehditeymorian/jwt/internal/cmd"
 
 	"github.com/spf13/cobra"
 )
@@ -23,6 +23,7 @@ func Execute() {
 
 	rootCmd.AddCommand(
 		cmd.Encode(),
+		cmd.Decode(),
 	)
 
 	if err := rootCmd.Execute(); err != nil {

@@ -6,9 +6,8 @@ import (
 	"os"
 	"time"
 
-	"jwt-cli/internal/model"
-
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/mehditeymorian/jwt/internal/model"
 )
 
 func Encode(encode model.Encode) (string, error) {

@@ -1,4 +1,4 @@
-module jwt-cli
+module github.com/mehditeymorian/jwt
 
 go 1.18
 
