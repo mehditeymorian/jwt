@@ -19,24 +19,12 @@ const (
 	Name   = "jwt"
 )
 
-type SigningMethod string
-
-const (
-	RSA  SigningMethod = "rsa"
-	HMac SigningMethod = "hmac"
-)
-
 type Config struct {
 	Algorithms  []string
 	Expirations []string
 
 	SigningMethod SigningMethod `koanf:"signing_method"`
 	Rsa           Rsa           `koanf:"rsa"`
-}
-
-type Rsa struct {
-	PublicKey  string
-	PrivateKey string
 }
 
 func Load(path string) Config {
