@@ -16,7 +16,7 @@ import (
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	rootCmd := &cobra.Command{ //nolint:exhaustruct,exhaustivestruct
-		Use:   "jwt-cli",
+		Use:   "jwt",
 		Short: "JWT Encoder and Decoder",
 		Long:  `Encode and Decode JWT Tokens`,
 	}
