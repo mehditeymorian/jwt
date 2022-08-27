@@ -15,9 +15,9 @@ import (
 )
 
 const (
-	PREFIX     = "JWT"
-	Name       = "jwt"
-	configPath = "/etc/jwt/config.yaml"
+	PREFIX = "JWT"
+	Name   = "jwt"
+	Path   = "/etc/jwt/config.yaml"
 )
 
 type Config struct {
@@ -40,7 +40,7 @@ func Load() Config {
 	}
 
 	// load configuration from file
-	if err := k.Load(file.Provider(configPath), yaml.Parser()); err != nil {
+	if err := k.Load(file.Provider(Path), yaml.Parser()); err != nil {
 		log.Printf("error loading config.yaml: %v", err)
 	}
 
