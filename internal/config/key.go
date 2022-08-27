@@ -28,3 +28,21 @@ func (c Config) DecodeKey() any {
 
 	return key
 }
+
+func (c Config) EncodeKey() any {
+	var err error
+	var key any
+
+	switch c.SigningMethod {
+	case RSA:
+		key, err = jwt.ParseRSAPrivateKeyFromPEM([]byte(c.Rsa.PrivateKey))
+	default:
+		key = c.DecodeKey()
+	}
+
+	if err != nil {
+		panic(fmt.Errorf("failed to read encode key from config: %w", err))
+	}
+
+	return key
+}
