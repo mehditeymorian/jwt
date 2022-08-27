@@ -15,8 +15,9 @@ import (
 )
 
 const (
-	PREFIX = "JWT"
-	Name   = "jwt"
+	PREFIX     = "JWT"
+	Name       = "jwt"
+	configPath = "/etc/jwt/config.yaml"
 )
 
 type Config struct {
@@ -28,7 +29,7 @@ type Config struct {
 	Hmac          HMac          `koanf:"hmac"`
 }
 
-func Load(path string) Config {
+func Load() Config {
 	var cfg Config
 
 	k := koanf.New(".")
@@ -39,7 +40,7 @@ func Load(path string) Config {
 	}
 
 	// load configuration from file
-	if err := k.Load(file.Provider(path), yaml.Parser()); err != nil {
+	if err := k.Load(file.Provider(configPath), yaml.Parser()); err != nil {
 		log.Printf("error loading config.yaml: %v", err)
 	}
 
