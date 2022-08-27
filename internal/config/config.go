@@ -66,7 +66,7 @@ func Load() Config {
 		log.Fatalf("error unmarshaling config: %v", err)
 	}
 
-	indent, err := json.MarshalIndent(cfg, "", "\t")
+	indent, err := json.MarshalIndent(cfg.PrintableConfig(), "", "\t")
 	if err != nil {
 		log.Fatalf("error marshal config: %v", err)
 	}
@@ -87,4 +87,21 @@ func removeWhitespace(in string) string {
 	compile := regexp.MustCompile(`\s+`)
 
 	return compile.ReplaceAllString(in, "")
+}
+
+func (c Config) PrintableConfig() map[string]any {
+	result := make(map[string]any)
+
+	var config any
+	switch c.SigningMethod {
+	case RSA:
+		config = c.Rsa
+	case HMAC:
+		config = c.Hmac
+	}
+
+	result["signing_method"] = c.SigningMethod
+	result[string(c.SigningMethod)] = config
+
+	return result
 }
