@@ -24,5 +24,10 @@ func Default() Config {
 			"720h",
 			"8760h",
 		},
+
+		Rsa: Rsa{
+			PublicKey:  "",
+			PrivateKey: "",
+		},
 	}
 }
