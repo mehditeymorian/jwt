@@ -25,6 +25,7 @@ type Config struct {
 
 	SigningMethod SigningMethod `koanf:"signing_method"`
 	Rsa           Rsa           `koanf:"rsa"`
+	Hmac          HMac          `koanf:"hmac"`
 }
 
 func Load(path string) Config {
