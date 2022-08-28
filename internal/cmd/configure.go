@@ -9,15 +9,38 @@ import (
 )
 
 func Configure() *cobra.Command {
-	return &cobra.Command{
+	config := cobra.Command{
 		Use:   "config",
 		Short: "config jwt cli",
 		Long:  "config jwt cli",
-		Run:   configure,
+		Run:   view,
 	}
+
+	edit := &cobra.Command{
+		Use:   "edit",
+		Short: "edit jwt config",
+		Run:   edit,
+	}
+
+	view := &cobra.Command{
+		Use:   "view",
+		Short: "edit jwt config",
+		Run:   view,
+	}
+
+	config.AddCommand(
+		edit,
+		view,
+	)
+
+	return &config
 }
 
-func configure(_ *cobra.Command, _ []string) {
+func view(_ *cobra.Command, _ []string) {
+	config.Load()
+}
+
+func edit(_ *cobra.Command, _ []string) {
 	if _, err := os.Stat(config.Path); err != nil {
 		cmd := exec.Command("sudo", "mkdir", "-p", config.Dir)
 		cmd.Stdin = os.Stdin
