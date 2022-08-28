@@ -29,14 +29,6 @@ func main(cmd *cobra.Command, args []string) {
 
 	qs := []*survey.Question{
 		{
-			Name: "Algorithm",
-			Prompt: &survey.Select{ //nolint:exhaustruct,exhaustivestruct
-				Message: "Algorithm",
-				Options: cfg.Algorithms,
-				Default: cfg.Algorithms[0],
-			},
-		},
-		{
 			Name: "Expiration",
 			Prompt: &survey.Select{ //nolint:exhaustruct,exhaustivestruct
 				Message: "Expiration",
@@ -65,6 +57,8 @@ func main(cmd *cobra.Command, args []string) {
 	}
 
 	survey.Ask(qs, &encode, nil)
+
+	encode.Algorithm = cfg.Algorithm
 
 	token, err := jwt.Encode(encode, cfg.EncodeKey())
 	if err != nil {
