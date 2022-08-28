@@ -28,7 +28,7 @@ func decode(_ *cobra.Command, _ []string) {
 
 	survey.AskOne(prompt, &strToken)
 
-	token, err := jwt.Decode(strToken, cfg.DecodeKey(), string(cfg.SigningMethod))
+	token, err := jwt.Decode(strToken, cfg.DecodeKey(), cfg.Algorithm)
 	if err != nil {
 		log.Fatalf("failed to decode token: %v", err)
 	}
