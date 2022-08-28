@@ -26,6 +26,7 @@ type Config struct {
 	Expirations []string
 
 	SigningMethod SigningMethod `koanf:"signing_method"`
+	Algorithm     string        `koanf:"algorithm"`
 	Rsa           Rsa           `koanf:"rsa"`
 	Hmac          HMac          `koanf:"hmac"`
 }

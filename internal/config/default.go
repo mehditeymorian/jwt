@@ -26,6 +26,7 @@ func Default() Config {
 		},
 
 		SigningMethod: RSA,
+		Algorithm:     "RS512",
 
 		Rsa: Rsa{
 			PublicKey:  "",
