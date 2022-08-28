@@ -18,7 +18,7 @@ func (c Config) DecodeKey() any {
 		if c.Hmac.Base64Encoded {
 			key, err = base64.StdEncoding.DecodeString(c.Hmac.Key)
 		} else {
-			key = c.Hmac.Key
+			key = []byte(c.Hmac.Key)
 		}
 	}
 
