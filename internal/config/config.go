@@ -29,6 +29,7 @@ type Config struct {
 	Algorithm     string        `koanf:"algorithm"`
 	Rsa           Rsa           `koanf:"rsa"`
 	Hmac          HMac          `koanf:"hmac"`
+	Ecdsa         Ecdsa         `koanf:"ecdsa"`
 }
 
 func Load() Config {

@@ -32,5 +32,13 @@ func Default() Config {
 			PublicKey:  "",
 			PrivateKey: "",
 		},
+		Hmac: HMac{
+			Key:           "",
+			Base64Encoded: false,
+		},
+		Ecdsa: Ecdsa{
+			PublicKey:  "",
+			PrivateKey: "",
+		},
 	}
 }
