@@ -17,6 +17,7 @@ import (
 const (
 	PREFIX = "JWT"
 	Name   = "jwt"
+	Dir    = "/etc/jwt/"
 	Path   = "/etc/jwt/config.yaml"
 )
 
