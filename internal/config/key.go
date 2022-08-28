@@ -20,6 +20,8 @@ func (c Config) DecodeKey() any {
 		} else {
 			key = []byte(c.Hmac.Key)
 		}
+	case ECDSA:
+		key, err = jwt.ParseECPublicKeyFromPEM([]byte(c.Ecdsa.PublicKey))
 	}
 
 	if err != nil {
@@ -36,6 +38,8 @@ func (c Config) EncodeKey() any {
 	switch c.SigningMethod {
 	case RSA:
 		key, err = jwt.ParseRSAPrivateKeyFromPEM([]byte(c.Rsa.PrivateKey))
+	case ECDSA:
+		key, err = jwt.ParseECPrivateKeyFromPEM([]byte(c.Ecdsa.PrivateKey))
 	default:
 		key = c.DecodeKey()
 	}
