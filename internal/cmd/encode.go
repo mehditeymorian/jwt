@@ -46,7 +46,7 @@ func main(cmd *cobra.Command, args []string) {
 		},
 		{
 			Name: "Subject",
-			Prompt: &survey.Multiline{ //nolint:exhaustruct,exhaustivestruct
+			Prompt: &survey.Input{ //nolint:exhaustruct,exhaustivestruct
 				Message: "Subject",
 			},
 		},
