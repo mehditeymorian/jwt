@@ -68,7 +68,7 @@ func main(cmd *cobra.Command, args []string) {
 
 	token, err := jwt.Encode(encode, cfg.EncodeKey())
 	if err != nil {
-		log.Fatalf("failed to generate JWT token: %w", err)
+		log.Fatalf("failed to generate JWT token: %v", err)
 	}
 
 	log.Printf("Token: %s\n", token)
