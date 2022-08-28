@@ -40,7 +40,7 @@ func Decode(strToken string, key any, signingMethod string) (*jwt.Token, error) 
 		return key, nil
 	})
 
-	if err != nil {
+	if err != nil && !errors.Is(err, jwt.ErrSignatureInvalid) {
 		return nil, fmt.Errorf("failed to parse token: %w", err)
 	}
 
