@@ -8,6 +8,7 @@ import (
 	"github.com/mehditeymorian/jwt/internal/config"
 	"github.com/mehditeymorian/jwt/internal/jwt"
 	"github.com/spf13/cobra"
+	"github.com/tidwall/pretty"
 )
 
 func Decode() *cobra.Command {
@@ -33,21 +34,26 @@ func decode(_ *cobra.Command, _ []string) {
 		log.Fatalf("failed to decode token: %v", err)
 	}
 
-	headers, err := json.MarshalIndent(token.Header, "", "\t")
-	if err != nil {
-		log.Fatalf("failed to decode token: %v", err)
-	}
-
-	payload, err := json.MarshalIndent(token.Claims, "", "\t")
-	if err != nil {
-		log.Fatalf("failed to decode token: %v", err)
-	}
-
 	if token.Valid {
 		log.Println("Token is Valid.")
 	} else {
 		log.Println("Token is Invalid.")
 	}
 
-	log.Printf("headers: %s,\npayload: %s\n", headers, payload)
+	result := make(map[string]any)
+	result["headers"] = token.Header
+	result["payload"] = token.Claims
+
+	indent, err := json.MarshalIndent(result, "", "\t")
+	if err != nil {
+		log.Fatalf("error marshaling result: %v", err)
+	}
+
+	indent = pretty.Color(indent, nil)
+	cfgStrTemplate := `
+	================ Decoded JWT Token ================
+	%s
+	===================================================
+	`
+	log.Printf(cfgStrTemplate, string(indent))
 }
