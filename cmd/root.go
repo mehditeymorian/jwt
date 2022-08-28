@@ -24,6 +24,7 @@ func Execute() {
 	rootCmd.AddCommand(
 		cmd.Encode(),
 		cmd.Decode(),
+		cmd.Configure(),
 	)
 
 	if err := rootCmd.Execute(); err != nil {
