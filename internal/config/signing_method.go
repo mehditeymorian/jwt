@@ -14,5 +14,5 @@ type Rsa struct {
 
 type HMac struct {
 	Key           string `koanf:"key"`
-	Base64Encoded bool   `koanf:"base_64_encoded"`
+	Base64Encoded bool   `koanf:"base64_encoded"`
 }
