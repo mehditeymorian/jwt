@@ -103,6 +103,7 @@ func (c Config) PrintableConfig() map[string]any {
 	}
 
 	result["signing_method"] = c.SigningMethod
+	result["algorithm"] = c.Algorithm
 	result[string(c.SigningMethod)] = config
 
 	return result
