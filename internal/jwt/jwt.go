@@ -17,6 +17,7 @@ func Encode(encode model.Encode, key any) (string, error) {
 	claims := jwt.MapClaims{
 		"iss": encode.Issuer,
 		"exp": time.Now().Add(exp).Unix(),
+		"iat": time.Now().Unix(),
 		"sub": encode.Subject,
 		"aud": encode.Audience,
 	}
