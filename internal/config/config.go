@@ -69,19 +69,6 @@ func Load() Config {
 		log.Fatalf("error unmarshaling config: %v", err)
 	}
 
-	indent, err := json.MarshalIndent(cfg.PrintableConfig(), "", "\t")
-	if err != nil {
-		log.Fatalf("error marshal config: %v", err)
-	}
-
-	indent = pretty.Color(indent, nil)
-	cfgStrTemplate := `
-	================ Loaded Configuration ================
-	%s
-	======================================================
-	`
-	log.Printf(cfgStrTemplate, string(indent))
-
 	return cfg
 }
 
@@ -108,4 +95,20 @@ func (c Config) PrintableConfig() map[string]any {
 	result[string(c.SigningMethod)] = config
 
 	return result
+}
+
+func (c Config) Print() {
+	indent, err := json.MarshalIndent(c.PrintableConfig(), "", "\t")
+	if err != nil {
+		log.Fatalf("error marshal config: %v", err)
+	}
+
+	indent = pretty.Color(indent, nil)
+	cfgStrTemplate := `
+	================ Loaded Configuration ================
+	%s
+	======================================================
+	`
+	log.Printf(cfgStrTemplate, string(indent))
+
 }
