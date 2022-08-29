@@ -15,7 +15,7 @@ func GenerateHmacKey(size int, base64Encoded bool) []byte {
 	}
 
 	if base64Encoded {
-		encodedKey := make([]byte, size)
+		encodedKey := make([]byte, base64.StdEncoding.EncodedLen(size))
 
 		base64.StdEncoding.Encode(encodedKey, key)
 
