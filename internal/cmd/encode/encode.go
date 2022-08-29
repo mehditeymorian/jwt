@@ -19,7 +19,6 @@ func Encode() *cobra.Command {
 		Long:  "Create JWT Token",
 		Run:   main,
 	}
-	cmd.SetConfigFlag(root)
 
 	return root
 }

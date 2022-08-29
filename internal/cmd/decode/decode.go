@@ -19,7 +19,6 @@ func Decode() *cobra.Command {
 		Long:  "decode jwt token",
 		Run:   decode,
 	}
-	cmd.SetConfigFlag(command)
 
 	return command
 }

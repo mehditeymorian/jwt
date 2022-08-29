@@ -7,6 +7,7 @@ package cmd
 import (
 	"os"
 
+	"github.com/mehditeymorian/jwt/internal/cmd"
 	"github.com/mehditeymorian/jwt/internal/cmd/configure"
 	"github.com/mehditeymorian/jwt/internal/cmd/decode"
 	"github.com/mehditeymorian/jwt/internal/cmd/encode"
@@ -22,6 +23,7 @@ func Execute() {
 		Short: "JWT Encoder and Decoder",
 		Long:  `Encode and Decode JWT Tokens`,
 	}
+	cmd.SetConfigFlag(rootCmd)
 
 	rootCmd.AddCommand(
 		encode.Encode(),

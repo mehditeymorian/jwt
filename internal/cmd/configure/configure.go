@@ -16,21 +16,18 @@ func Configure() *cobra.Command {
 		Long:  "config jwt cli",
 		Run:   view,
 	}
-	cmd.SetConfigFlag(c)
 
 	edit := &cobra.Command{
 		Use:   "edit",
 		Short: "edit jwt config",
 		Run:   edit,
 	}
-	cmd.SetConfigFlag(edit)
 
 	view := &cobra.Command{
 		Use:   "view",
 		Short: "edit jwt config",
 		Run:   view,
 	}
-	cmd.SetConfigFlag(view)
 
 	c.AddCommand(
 		edit,
