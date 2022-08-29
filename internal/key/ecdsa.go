@@ -7,7 +7,10 @@ import (
 )
 
 func GenerateEcdsaKeys() (*ecdsa.PublicKey, *ecdsa.PrivateKey) {
-	privateKey, _ := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+	privateKey, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
+	if err != nil {
+		return nil, nil
+	}
 
 	return &privateKey.PublicKey, privateKey
 }
