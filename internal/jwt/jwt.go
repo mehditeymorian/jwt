@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/mehditeymorian/jwt/internal/config"
 	"github.com/mehditeymorian/jwt/internal/model"
 )
 
@@ -32,10 +33,10 @@ func Encode(encode model.Encode, key any) (string, error) {
 	return signedString, nil
 }
 
-func Decode(strToken string, key any) (*jwt.Token, error) {
+func Decode(strToken string, cfg config.Config) (*jwt.Token, error) {
 	token, err := jwt.Parse(strToken, func(token *jwt.Token) (interface{}, error) {
 
-		return key, nil
+		return cfg.DecodeKey(token.Method.Alg()), nil
 	})
 
 	if err != nil && !errors.Is(err, jwt.ErrSignatureInvalid) {
