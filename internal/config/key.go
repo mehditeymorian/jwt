@@ -3,24 +3,25 @@ package config
 import (
 	"encoding/base64"
 	"fmt"
+	"regexp"
 
 	"github.com/golang-jwt/jwt/v4"
 )
 
-func (c Config) DecodeKey() any {
+func (c Config) DecodeKey(algorithm string) any {
 	var err error
 	var key any
 
-	switch c.SigningMethod {
-	case RSA:
+	switch {
+	case matchAlgorithm("(R|P)S.*", algorithm):
 		key, err = jwt.ParseRSAPublicKeyFromPEM([]byte(c.Rsa.PublicKey))
-	case HMAC:
+	case matchAlgorithm("HS.*", algorithm):
 		if c.Hmac.Base64Encoded {
 			key, err = base64.StdEncoding.DecodeString(c.Hmac.Key)
 		} else {
 			key = []byte(c.Hmac.Key)
 		}
-	case ECDSA:
+	case matchAlgorithm("ES.*", algorithm):
 		key, err = jwt.ParseECPublicKeyFromPEM([]byte(c.Ecdsa.PublicKey))
 	}
 
@@ -53,4 +54,10 @@ func (c Config) EncodeKey() any {
 	}
 
 	return key
+}
+
+func matchAlgorithm(pattern string, algorithm string) bool {
+	matched, _ := regexp.MatchString(pattern, algorithm)
+
+	return matched
 }
