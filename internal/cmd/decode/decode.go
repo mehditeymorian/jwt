@@ -23,16 +23,21 @@ func Decode() *cobra.Command {
 	return command
 }
 
-func decode(c *cobra.Command, _ []string) {
+func decode(c *cobra.Command, args []string) {
 	configPath := cmd.GetConfigPath(c)
 
 	cfg := config.Load(configPath)
 
 	strToken := ""
 
-	prompt := &survey.Input{Message: "JWT Token"}
+	if len(args) > 0 {
+		strToken = args[0]
+	} else {
+		prompt := &survey.Input{Message: "JWT Token"}
 
-	survey.AskOne(prompt, &strToken)
+		survey.AskOne(prompt, &strToken)
+
+	}
 
 	token, err := jwt.Decode(strToken, cfg)
 	if err != nil {
