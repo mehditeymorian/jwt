@@ -40,8 +40,12 @@ func (c Config) EncodeKey() any {
 		key, err = jwt.ParseRSAPrivateKeyFromPEM([]byte(c.Rsa.PrivateKey))
 	case ECDSA:
 		key, err = jwt.ParseECPrivateKeyFromPEM([]byte(c.Ecdsa.PrivateKey))
-	default:
-		key = c.DecodeKey()
+	case HMAC:
+		if c.Hmac.Base64Encoded {
+			key, err = base64.StdEncoding.DecodeString(c.Hmac.Key)
+		} else {
+			key = []byte(c.Hmac.Key)
+		}
 	}
 
 	if err != nil {
