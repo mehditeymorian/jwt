@@ -34,9 +34,6 @@ func Encode(encode model.Encode, key any) (string, error) {
 
 func Decode(strToken string, key any, algorithm string) (*jwt.Token, error) {
 	token, err := jwt.Parse(strToken, func(token *jwt.Token) (interface{}, error) {
-		if token.Method.Alg() != algorithm {
-			return nil, errInvalidSigningMethod
-		}
 
 		return key, nil
 	})
