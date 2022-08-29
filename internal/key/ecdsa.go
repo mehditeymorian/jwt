@@ -4,9 +4,11 @@ import (
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
+	"crypto/x509"
+	"encoding/pem"
 )
 
-func GenerateEcdsaKeys(curve string) (*ecdsa.PublicKey, *ecdsa.PrivateKey) {
+func GenerateEcdsaKeys(curve string) (string, string) {
 	var ellipticCurve elliptic.Curve
 
 	switch curve {
@@ -23,8 +25,23 @@ func GenerateEcdsaKeys(curve string) (*ecdsa.PublicKey, *ecdsa.PrivateKey) {
 	}
 	privateKey, err := ecdsa.GenerateKey(ellipticCurve, rand.Reader)
 	if err != nil {
-		return nil, nil
+		return "", ""
 	}
 
-	return &privateKey.PublicKey, privateKey
+	publicKey := &privateKey.PublicKey
+
+	publicBytes, err := x509.MarshalPKIXPublicKey(publicKey)
+	if err != nil {
+		return "", ""
+	}
+
+	pemEncodedPub := pem.EncodeToMemory(&pem.Block{Type: "PUBLIC KEY", Bytes: publicBytes})
+
+	privateBytes, err := x509.MarshalECPrivateKey(privateKey)
+	if err != nil {
+		return "", ""
+	}
+	pemEncoded := pem.EncodeToMemory(&pem.Block{Type: "PRIVATE KEY", Bytes: privateBytes})
+
+	return string(pemEncodedPub), string(pemEncoded)
 }
