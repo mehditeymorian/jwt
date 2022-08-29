@@ -56,6 +56,12 @@ ecdsa:
     key
 ```
 
+## Set Config
+1. Use `-c` option to pass config path
+2. Put `jwt-config.(yaml|yml)` where you run the jwt cli
+3. Default configuration, which is located at `/etc/jwt/config.yaml`
+
+
 # Contribution
 Any contribution in any form is welcomed. Open an issue to discuss about it.
 
