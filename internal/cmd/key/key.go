@@ -18,6 +18,7 @@ func Key() *cobra.Command {
 
 	c.AddCommand(
 		rsaCommand(),
+		hmacCommand(),
 	)
 
 	return c
@@ -42,7 +43,7 @@ func key(_ *cobra.Command, _ []string) {
 	case config.RSA:
 		rsa(nil, nil)
 	case config.HMAC:
-
+		hmac(nil, nil)
 	case config.ECDSA:
 
 	default:
