@@ -3,6 +3,7 @@ package config
 import (
 	"encoding/json"
 	"log"
+	"os"
 	"regexp"
 	"strings"
 
@@ -32,7 +33,7 @@ type Config struct {
 	Ecdsa         Ecdsa         `koanf:"ecdsa"`
 }
 
-func Load() Config {
+func Load(path string) Config {
 	var cfg Config
 
 	k := koanf.New(".")
@@ -43,7 +44,10 @@ func Load() Config {
 	}
 
 	// load configuration from file
-	if err := k.Load(file.Provider(Path), yaml.Parser()); err != nil {
+	configPath := configFileAddress(path)
+	log.Printf("reading config from %s\n", configPath)
+
+	if err := k.Load(file.Provider(configPath), yaml.Parser()); err != nil {
 		log.Printf("error loading config.yaml: %v", err)
 	}
 
@@ -111,4 +115,28 @@ func (c Config) Print() {
 	`
 	log.Printf(cfgStrTemplate, string(indent))
 
+}
+func configFileAddress(userPath string) string {
+	if len(userPath) != 0 {
+		return userPath
+	}
+
+	dir, err := os.Getwd()
+	if err != nil {
+		return Path
+	}
+
+	pattern, err := regexp.Compile("jwt-config\\.ya*ml")
+	if err != nil {
+		return Path
+	}
+
+	dirFiles, err := os.ReadDir(dir)
+	for _, entry := range dirFiles {
+		if pattern.MatchString(entry.Name()) {
+			return entry.Name()
+		}
+	}
+
+	return Path
 }

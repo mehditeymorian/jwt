@@ -23,7 +23,7 @@ func Encode() *cobra.Command {
 }
 
 func main(cmd *cobra.Command, args []string) {
-	cfg := config.Load()
+	cfg := config.Load("")
 
 	var encode model.Encode
 

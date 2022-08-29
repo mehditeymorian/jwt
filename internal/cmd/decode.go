@@ -21,7 +21,7 @@ func Decode() *cobra.Command {
 }
 
 func decode(_ *cobra.Command, _ []string) {
-	cfg := config.Load()
+	cfg := config.Load("")
 
 	strToken := ""
 

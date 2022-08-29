@@ -37,7 +37,7 @@ func Configure() *cobra.Command {
 }
 
 func view(_ *cobra.Command, _ []string) {
-	config.Load().Print()
+	config.Load("").Print()
 }
 
 func edit(_ *cobra.Command, _ []string) {
