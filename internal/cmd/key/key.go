@@ -16,6 +16,10 @@ func Key() *cobra.Command {
 		Example: "jwt key rsa|hmac|ecdsa",
 	}
 
+	c.AddCommand(
+		rsaCommand(),
+	)
+
 	return c
 }
 
@@ -36,7 +40,7 @@ func key(_ *cobra.Command, _ []string) {
 
 	switch config.SigningMethod(selected) {
 	case config.RSA:
-
+		rsa(nil, nil)
 	case config.HMAC:
 
 	case config.ECDSA:
