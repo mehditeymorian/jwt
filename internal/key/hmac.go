@@ -5,8 +5,7 @@ import (
 	"encoding/base64"
 )
 
-func GenerateHmacKey(base64Encoded bool) []byte {
-	size := 256
+func GenerateHmacKey(size int, base64Encoded bool) []byte {
 
 	key := make([]byte, size)
 
