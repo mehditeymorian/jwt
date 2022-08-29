@@ -12,16 +12,21 @@ import (
 )
 
 func Decode() *cobra.Command {
-	return &cobra.Command{
+	command := &cobra.Command{
 		Use:   "decode",
 		Short: "decode jwt token",
 		Long:  "decode jwt token",
 		Run:   decode,
 	}
+	SetConfigFlag(command)
+
+	return command
 }
 
-func decode(_ *cobra.Command, _ []string) {
-	cfg := config.Load("")
+func decode(c *cobra.Command, _ []string) {
+	configPath := GetConfigPath(c)
+
+	cfg := config.Load(configPath)
 
 	strToken := ""
 

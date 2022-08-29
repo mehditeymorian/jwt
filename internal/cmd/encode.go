@@ -18,12 +18,15 @@ func Encode() *cobra.Command {
 		Long:  "Create JWT Token",
 		Run:   main,
 	}
+	SetConfigFlag(root)
 
 	return root
 }
 
-func main(cmd *cobra.Command, args []string) {
-	cfg := config.Load("")
+func main(cmd *cobra.Command, _ []string) {
+	configPath := GetConfigPath(cmd)
+
+	cfg := config.Load(configPath)
 
 	var encode model.Encode
 
