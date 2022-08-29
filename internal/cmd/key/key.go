@@ -19,6 +19,7 @@ func Key() *cobra.Command {
 	c.AddCommand(
 		rsaCommand(),
 		hmacCommand(),
+		ecdsaCommand(),
 	)
 
 	return c
@@ -45,6 +46,7 @@ func key(_ *cobra.Command, _ []string) {
 	case config.HMAC:
 		hmac(nil, nil)
 	case config.ECDSA:
+		ecdsa(nil, nil)
 
 	default:
 		log.Println("this type of key is not provided")
