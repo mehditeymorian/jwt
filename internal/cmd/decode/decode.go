@@ -1,10 +1,11 @@
-package cmd
+package decode
 
 import (
 	"encoding/json"
 	"log"
 
 	"github.com/AlecAivazis/survey/v2"
+	"github.com/mehditeymorian/jwt/internal/cmd"
 	"github.com/mehditeymorian/jwt/internal/config"
 	"github.com/mehditeymorian/jwt/internal/jwt"
 	"github.com/spf13/cobra"
@@ -18,13 +19,13 @@ func Decode() *cobra.Command {
 		Long:  "decode jwt token",
 		Run:   decode,
 	}
-	SetConfigFlag(command)
+	cmd.SetConfigFlag(command)
 
 	return command
 }
 
 func decode(c *cobra.Command, _ []string) {
-	configPath := GetConfigPath(c)
+	configPath := cmd.GetConfigPath(c)
 
 	cfg := config.Load(configPath)
 

@@ -1,8 +1,9 @@
-package cmd
+package encode
 
 import (
 	"log"
 
+	"github.com/mehditeymorian/jwt/internal/cmd"
 	"github.com/mehditeymorian/jwt/internal/config"
 	"github.com/mehditeymorian/jwt/internal/jwt"
 	"github.com/mehditeymorian/jwt/internal/model"
@@ -18,13 +19,13 @@ func Encode() *cobra.Command {
 		Long:  "Create JWT Token",
 		Run:   main,
 	}
-	SetConfigFlag(root)
+	cmd.SetConfigFlag(root)
 
 	return root
 }
 
-func main(cmd *cobra.Command, _ []string) {
-	configPath := GetConfigPath(cmd)
+func main(c *cobra.Command, _ []string) {
+	configPath := cmd.GetConfigPath(c)
 
 	cfg := config.Load(configPath)
 

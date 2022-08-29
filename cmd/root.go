@@ -7,7 +7,9 @@ package cmd
 import (
 	"os"
 
-	"github.com/mehditeymorian/jwt/internal/cmd"
+	"github.com/mehditeymorian/jwt/internal/cmd/configure"
+	"github.com/mehditeymorian/jwt/internal/cmd/decode"
+	"github.com/mehditeymorian/jwt/internal/cmd/encode"
 
 	"github.com/spf13/cobra"
 )
@@ -22,9 +24,9 @@ func Execute() {
 	}
 
 	rootCmd.AddCommand(
-		cmd.Encode(),
-		cmd.Decode(),
-		cmd.Configure(),
+		encode.Encode(),
+		decode.Decode(),
+		configure.Configure(),
 	)
 
 	if err := rootCmd.Execute(); err != nil {

@@ -1,9 +1,10 @@
-package cmd
+package configure
 
 import (
 	"os"
 	"os/exec"
 
+	"github.com/mehditeymorian/jwt/internal/cmd"
 	"github.com/mehditeymorian/jwt/internal/config"
 	"github.com/spf13/cobra"
 )
@@ -15,21 +16,21 @@ func Configure() *cobra.Command {
 		Long:  "config jwt cli",
 		Run:   view,
 	}
-	SetConfigFlag(c)
+	cmd.SetConfigFlag(c)
 
 	edit := &cobra.Command{
 		Use:   "edit",
 		Short: "edit jwt config",
 		Run:   edit,
 	}
-	SetConfigFlag(edit)
+	cmd.SetConfigFlag(edit)
 
 	view := &cobra.Command{
 		Use:   "view",
 		Short: "edit jwt config",
 		Run:   view,
 	}
-	SetConfigFlag(view)
+	cmd.SetConfigFlag(view)
 
 	c.AddCommand(
 		edit,
@@ -40,13 +41,13 @@ func Configure() *cobra.Command {
 }
 
 func view(c *cobra.Command, _ []string) {
-	configPath := GetConfigPath(c)
+	configPath := cmd.GetConfigPath(c)
 
 	config.Load(configPath).Print()
 }
 
 func edit(c *cobra.Command, _ []string) {
-	configPath := GetConfigPath(c)
+	configPath := cmd.GetConfigPath(c)
 
 	if _, err := os.Stat(configPath); err != nil {
 		cmd := exec.Command("sudo", "mkdir", "-p", config.Dir)
