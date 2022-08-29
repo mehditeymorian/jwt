@@ -1,6 +1,14 @@
 package config
 
+import (
+	"github.com/mehditeymorian/jwt/internal/key"
+)
+
 func Default() Config {
+	rsaPublic, rsaPrivate := key.GenerateRsaKeys(1024)
+	hmacKey := key.GenerateHmacKey(256, true)
+	ecPublic, ecPrivate := key.GenerateEcdsaKeys("P256")
+
 	return Config{
 		Algorithms: []string{
 			"HS256",
@@ -29,16 +37,16 @@ func Default() Config {
 		Algorithm:     "RS512",
 
 		Rsa: Rsa{
-			PublicKey:  "",
-			PrivateKey: "",
+			PublicKey:  rsaPublic,
+			PrivateKey: rsaPrivate,
 		},
 		Hmac: HMac{
-			Key:           "",
-			Base64Encoded: false,
+			Key:           string(hmacKey),
+			Base64Encoded: true,
 		},
 		Ecdsa: Ecdsa{
-			PublicKey:  "",
-			PrivateKey: "",
+			PublicKey:  ecPublic,
+			PrivateKey: ecPrivate,
 		},
 	}
 }
