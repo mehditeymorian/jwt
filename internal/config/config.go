@@ -92,6 +92,8 @@ func (c Config) PrintableConfig() map[string]any {
 		config = c.Rsa
 	case HMAC:
 		config = c.Hmac
+	case ECDSA:
+		config = c.Ecdsa
 	}
 
 	result["signing_method"] = c.SigningMethod
