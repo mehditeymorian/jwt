@@ -16,17 +16,23 @@ func Configure() *cobra.Command {
 		Run:   view,
 	}
 
+	config.Flags().StringP("config", "c", "", "jwt configuration")
+
 	edit := &cobra.Command{
 		Use:   "edit",
 		Short: "edit jwt config",
 		Run:   edit,
 	}
 
+	edit.Flags().StringP("config", "c", "", "jwt configuration")
+
 	view := &cobra.Command{
 		Use:   "view",
 		Short: "edit jwt config",
 		Run:   view,
 	}
+
+	view.Flags().StringP("config", "c", "", "jwt configuration")
 
 	config.AddCommand(
 		edit,
@@ -36,12 +42,16 @@ func Configure() *cobra.Command {
 	return &config
 }
 
-func view(_ *cobra.Command, _ []string) {
-	config.Load("").Print()
+func view(c *cobra.Command, _ []string) {
+	configPath, _ := c.Flags().GetString("config")
+
+	config.Load(configPath).Print()
 }
 
-func edit(_ *cobra.Command, _ []string) {
-	if _, err := os.Stat(config.Path); err != nil {
+func edit(c *cobra.Command, _ []string) {
+	configPath, _ := c.Flags().GetString("config")
+
+	if _, err := os.Stat(configPath); err != nil {
 		cmd := exec.Command("sudo", "mkdir", "-p", config.Dir)
 		cmd.Stdin = os.Stdin
 		cmd.Stdout = os.Stdout
