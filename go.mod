@@ -8,6 +8,7 @@ require (
 	github.com/knadh/koanf v1.4.3
 	github.com/spf13/cobra v1.5.0
 	github.com/tidwall/pretty v1.2.0
+	gopkg.in/yaml.v3 v3.0.0
 )
 
 require (
@@ -25,5 +26,4 @@ require (
 	golang.org/x/sys v0.0.0-20220422013727-9388b58f7150 // indirect
 	golang.org/x/term v0.0.0-20210503060354-a79de5458b56 // indirect
 	golang.org/x/text v0.3.6 // indirect
-	gopkg.in/yaml.v3 v3.0.0 // indirect
 )
