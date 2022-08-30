@@ -33,7 +33,7 @@ func Encode(encode model.Encode, key any) (string, error) {
 	return signedString, nil
 }
 
-func Decode(strToken string, cfg config.Config) (*jwt.Token, error) {
+func Decode(strToken string, cfg *config.Config) (*jwt.Token, error) {
 	token, err := jwt.Parse(strToken, func(token *jwt.Token) (interface{}, error) {
 
 		return cfg.DecodeKey(token.Method.Alg()), nil

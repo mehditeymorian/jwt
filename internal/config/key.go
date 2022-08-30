@@ -8,7 +8,7 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 )
 
-func (c Config) DecodeKey(algorithm string) any {
+func (c *Config) DecodeKey(algorithm string) any {
 	var err error
 	var key any
 
@@ -32,7 +32,7 @@ func (c Config) DecodeKey(algorithm string) any {
 	return key
 }
 
-func (c Config) EncodeKey() any {
+func (c *Config) EncodeKey() any {
 	var err error
 	var key any
 
