@@ -17,7 +17,8 @@ func Command() *cobra.Command {
 	}
 
 	c.AddCommand(
-		algorithmCommand())
+		algorithmCommand(),
+		methodCommand())
 
 	return c
 }
