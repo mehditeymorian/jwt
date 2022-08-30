@@ -23,6 +23,7 @@ const (
 )
 
 type Config struct {
+	loadedPath  string
 	Algorithms  []string
 	Expirations []string
 
@@ -35,6 +36,8 @@ type Config struct {
 
 func Load(path string) Config {
 	var cfg Config
+
+	cfg.loadedPath = path
 
 	k := koanf.New(".")
 
