@@ -27,7 +27,7 @@ func Key() *cobra.Command {
 	return c
 }
 
-func key(_ *cobra.Command, _ []string) {
+func key(cmd *cobra.Command, args []string) {
 
 	prompt := &survey.Select{
 		Message: "select key type",
@@ -44,11 +44,11 @@ func key(_ *cobra.Command, _ []string) {
 
 	switch config.SigningMethod(selected) {
 	case config.RSA:
-		rsa(nil, nil)
+		rsa(cmd, args)
 	case config.HMAC:
-		hmac(nil, nil)
+		hmac(cmd, args)
 	case config.ECDSA:
-		ecdsa(nil, nil)
+		ecdsa(cmd, args)
 
 	default:
 		log.Println("this type of key is not provided")
