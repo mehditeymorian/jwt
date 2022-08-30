@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/AlecAivazis/survey/v2"
+	"github.com/mehditeymorian/jwt/internal/cmd"
 	"github.com/mehditeymorian/jwt/internal/config"
 	"github.com/spf13/cobra"
 )
@@ -15,6 +16,7 @@ func Key() *cobra.Command {
 		Run:     key,
 		Example: "jwt key rsa|hmac|ecdsa",
 	}
+	cmd.SetKeyFlags(c)
 
 	c.AddCommand(
 		rsaCommand(),

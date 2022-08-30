@@ -11,3 +11,15 @@ func GetConfigPath(cmd *cobra.Command) string {
 
 	return path
 }
+
+func SetKeyFlags(cmd *cobra.Command) {
+	cmd.PersistentFlags().BoolP("file", "f", false, "save keys as file")
+	cmd.PersistentFlags().BoolP("default", "d", false, "save keys in default config")
+}
+
+func GetKeySaveOptions(cmd *cobra.Command) (file bool, def bool) {
+	file, _ = cmd.Flags().GetBool("file")
+	def, _ = cmd.Flags().GetBool("default")
+
+	return file, def
+}
