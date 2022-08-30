@@ -17,9 +17,9 @@ func SetKeyFlags(cmd *cobra.Command) {
 	cmd.PersistentFlags().BoolP("default", "d", false, "save keys in default config")
 }
 
-func GetKeySaveOptions(cmd *cobra.Command) (file bool, def bool) {
-	file, _ = cmd.Flags().GetBool("file")
-	def, _ = cmd.Flags().GetBool("default")
+func GetKeySaveOptions(cmd *cobra.Command) (saveFile bool, saveDefault bool) {
+	saveFile, _ = cmd.Flags().GetBool("file")
+	saveDefault, _ = cmd.Flags().GetBool("default")
 
-	return file, def
+	return saveFile, saveDefault
 }

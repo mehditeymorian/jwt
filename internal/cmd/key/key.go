@@ -2,6 +2,7 @@ package key
 
 import (
 	"log"
+	"os"
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/mehditeymorian/jwt/internal/cmd"
@@ -54,4 +55,18 @@ func key(cmd *cobra.Command, args []string) {
 		log.Println("this type of key is not provided")
 	}
 
+}
+
+func SaveKey(filename string, content []byte) {
+	dir, _ := os.Getwd()
+
+	file, err := os.Create(dir + filename)
+	if err != nil {
+		log.Fatalf("failed to save key in file: %v\n", err)
+	}
+	defer file.Close()
+
+	file.Write(content)
+
+	log.Printf("key stored in %s/public.pem\n", dir)
 }
