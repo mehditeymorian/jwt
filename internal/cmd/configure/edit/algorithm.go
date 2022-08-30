@@ -24,8 +24,9 @@ func algorithm(c *cobra.Command, _ []string) {
 	cfg := config.Load(configPath)
 
 	prompt := &survey.Select{
-		Message: "select algorithm",
-		Options: cfg.Algorithms,
+		Message: "select an algorithm",
+		Help:    "choose another sign method to use other algorithms",
+		Options: cfg.AlgorithmForMethod(),
 	}
 
 	var alg string
