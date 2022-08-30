@@ -5,6 +5,7 @@ import (
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/mehditeymorian/jwt/internal/cmd"
+	"github.com/mehditeymorian/jwt/internal/config"
 	keyGenerator "github.com/mehditeymorian/jwt/internal/key"
 	"github.com/spf13/cobra"
 )
@@ -21,6 +22,7 @@ func rsaCommand() *cobra.Command {
 }
 
 func rsa(c *cobra.Command, _ []string) {
+	configPath := cmd.GetConfigPath(c)
 	saveFile, saveDefault := cmd.GetKeySaveOptions(c)
 
 	prompt := &survey.Select{
@@ -47,7 +49,10 @@ func rsa(c *cobra.Command, _ []string) {
 	}
 
 	if saveDefault {
-
+		cfg := config.Load(configPath)
+		cfg.Rsa.PublicKey = publicKey
+		cfg.Rsa.PrivateKey = privateKey
+		cfg.Save()
 	}
 
 }
