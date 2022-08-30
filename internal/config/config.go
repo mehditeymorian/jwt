@@ -13,6 +13,7 @@ import (
 	"github.com/knadh/koanf/providers/file"
 	"github.com/knadh/koanf/providers/structs"
 	"github.com/tidwall/pretty"
+	"gopkg.in/yaml.v3"
 )
 
 const (
@@ -90,16 +91,16 @@ func (c *Config) Save() {
 	}
 	defer file.Close()
 
-	bytes, err := c.k.Marshal(koanfYaml.Parser())
-	if err != nil {
-		log.Fatalf("failed to marshal config: %v\n", err)
-	}
+	data := make(map[string]any)
 
-	_, err = file.Write(bytes)
+	c.k.Unmarshal("", &data)
+
+	encoder := yaml.NewEncoder(file)
+
+	err = encoder.Encode(data)
 	if err != nil {
 		log.Fatalf("failed to write config to file: %v\n", err)
 	}
-
 }
 
 // removeWhitespace remove all the whitespaces from the input.
