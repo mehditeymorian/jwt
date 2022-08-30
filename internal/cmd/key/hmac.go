@@ -28,7 +28,7 @@ func hmac(c *cobra.Command, _ []string) {
 	var base64Encoded bool
 	var sizeStr string
 
-	prompt := &survey.Confirm{Message: "generate base64 encoded key?"}
+	prompt := &survey.Confirm{Message: "generate base64 encoded key?", Default: true}
 
 	survey.AskOne(prompt, &base64Encoded)
 
