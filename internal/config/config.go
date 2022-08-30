@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/knadh/koanf"
-	"github.com/knadh/koanf/parsers/yaml"
+	koanfYaml "github.com/knadh/koanf/parsers/yaml"
 	"github.com/knadh/koanf/providers/env"
 	"github.com/knadh/koanf/providers/file"
 	"github.com/knadh/koanf/providers/structs"
@@ -23,6 +23,7 @@ const (
 )
 
 type Config struct {
+	k           *koanf.Koanf
 	loadedPath  string
 	Algorithms  []string
 	Expirations []string
@@ -34,23 +35,24 @@ type Config struct {
 	Ecdsa         Ecdsa         `koanf:"ecdsa"`
 }
 
-func Load(path string) Config {
+func Load(path string) *Config {
 	var cfg Config
 
-	cfg.loadedPath = path
+	// load configuration from file
+	configPath := configFileAddress(path)
+	log.Printf("reading config from %s\n", configPath)
+
+	cfg.loadedPath = configPath
 
 	k := koanf.New(".")
+	cfg.k = k
 
 	// load default configuration
 	if err := k.Load(structs.Provider(Default(), "koanf"), nil); err != nil {
 		log.Fatalf("error loading default config: %v", err)
 	}
 
-	// load configuration from file
-	configPath := configFileAddress(path)
-	log.Printf("reading config from %s\n", configPath)
-
-	if err := k.Load(file.Provider(configPath), yaml.Parser()); err != nil {
+	if err := k.Load(file.Provider(configPath), koanfYaml.Parser()); err != nil {
 		log.Printf("error loading config.yaml: %v", err)
 	}
 
@@ -76,7 +78,28 @@ func Load(path string) Config {
 		log.Fatalf("error unmarshaling config: %v", err)
 	}
 
-	return cfg
+	return &cfg
+}
+
+func (c *Config) Save() {
+	log.Printf("saving config in %s\n", c.loadedPath)
+
+	file, err := os.OpenFile(c.loadedPath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0600)
+	if err != nil {
+		log.Fatalf("error opening/creating config file: %v", err)
+	}
+	defer file.Close()
+
+	bytes, err := c.k.Marshal(koanfYaml.Parser())
+	if err != nil {
+		log.Fatalf("failed to marshal config: %v\n", err)
+	}
+
+	_, err = file.Write(bytes)
+	if err != nil {
+		log.Fatalf("failed to write config to file: %v\n", err)
+	}
+
 }
 
 // removeWhitespace remove all the whitespaces from the input.
@@ -86,7 +109,7 @@ func removeWhitespace(in string) string {
 	return compile.ReplaceAllString(in, "")
 }
 
-func (c Config) PrintableConfig() map[string]any {
+func (c *Config) PrintableConfig() map[string]any {
 	result := make(map[string]any)
 
 	var config any
@@ -106,7 +129,7 @@ func (c Config) PrintableConfig() map[string]any {
 	return result
 }
 
-func (c Config) Print() {
+func (c *Config) Print() {
 	indent, err := json.MarshalIndent(c.PrintableConfig(), "", "\t")
 	if err != nil {
 		log.Fatalf("error marshal config: %v", err)
@@ -121,6 +144,7 @@ func (c Config) Print() {
 	log.Printf(cfgStrTemplate, string(indent))
 
 }
+
 func configFileAddress(userPath string) string {
 	if len(userPath) != 0 {
 		return userPath
