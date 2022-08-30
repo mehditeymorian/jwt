@@ -1,11 +1,11 @@
 package key
 
 import (
-	"log"
-	"os"
-
 	"github.com/AlecAivazis/survey/v2"
+	"github.com/mehditeymorian/jwt/internal/cmd"
+	"github.com/mehditeymorian/jwt/internal/config"
 	keyGenerator "github.com/mehditeymorian/jwt/internal/key"
+	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
 )
 
@@ -20,7 +20,9 @@ func ecdsaCommand() *cobra.Command {
 	return c
 }
 
-func ecdsa(_ *cobra.Command, _ []string) {
+func ecdsa(c *cobra.Command, _ []string) {
+	configPath := cmd.GetConfigPath(c)
+	saveFile, saveDefault := cmd.GetKeySaveOptions(c)
 
 	prompt := &survey.Select{
 		Message: "select number of bits",
@@ -38,26 +40,20 @@ func ecdsa(_ *cobra.Command, _ []string) {
 
 	publicKey, privateKey := keyGenerator.GenerateEcdsaKeys(ellipticCurve)
 
-	dir, _ := os.Getwd()
+	publicBox := pterm.DefaultBox.WithTitle("Public Key").Sprint(publicKey)
+	privateBox := pterm.DefaultBox.WithTitle("Private Key").Sprint(privateKey)
+	render, _ := pterm.DefaultPanel.WithPanels(pterm.Panels{{{Data: publicBox}, {Data: privateBox}}}).Srender()
+	pterm.Println(render)
 
-	publicPem, err := os.Create(dir + "/public.pem")
-	if err != nil {
-		log.Fatalf("failed to create public pem file: %v\n", err)
+	if saveFile {
+		SaveKey("/public.pem", []byte(publicKey))
+		SaveKey("/private.pem", []byte(privateKey))
 	}
-	defer publicPem.Close()
 
-	publicPem.WriteString(publicKey)
-
-	privatePem, err := os.Create(dir + "/private.pem")
-	if err != nil {
-		log.Fatalf("failed to create private pem file: %v\n", err)
+	if saveDefault {
+		cfg := config.Load(configPath)
+		cfg.Ecdsa.PublicKey = publicKey
+		cfg.Ecdsa.PrivateKey = privateKey
+		cfg.Save()
 	}
-	defer privatePem.Close()
-
-	privatePem.WriteString(privateKey)
-
-	log.Printf(`
-	Publickey: %s/public.pem
-	PrivateKey: %s/private.pem
-`, dir, dir)
 }
