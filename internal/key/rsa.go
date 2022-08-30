@@ -13,10 +13,10 @@ func GenerateRsaKeys(bits int) (string, string) {
 		return "", ""
 	}
 
-	publicKey := &privateKey.PublicKey
-	pemEncodedPub := pem.EncodeToMemory(&pem.Block{Type: "PUBLIC KEY", Bytes: x509.MarshalPKCS1PublicKey(publicKey)})
+	publicKey := privateKey.Public()
+	pemEncodedPub := pem.EncodeToMemory(&pem.Block{Type: "RSA PUBLIC KEY", Bytes: x509.MarshalPKCS1PublicKey(publicKey.(*rsa.PublicKey))})
 
-	pemEncoded := pem.EncodeToMemory(&pem.Block{Type: "PRIVATE KEY", Bytes: x509.MarshalPKCS1PrivateKey(privateKey)})
+	pemEncoded := pem.EncodeToMemory(&pem.Block{Type: "RSA PRIVATE KEY", Bytes: x509.MarshalPKCS1PrivateKey(privateKey)})
 
 	return string(pemEncodedPub), string(pemEncoded)
 }
