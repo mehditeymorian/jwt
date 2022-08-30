@@ -11,9 +11,10 @@ import (
 
 func Command() *cobra.Command {
 	c := &cobra.Command{
-		Use:   "edit",
-		Short: "edit jwt config",
-		Run:   edit,
+		Use:     "edit",
+		Short:   "edit jwt config",
+		Example: "jwt config edit",
+		Run:     edit,
 	}
 
 	c.AddCommand(
