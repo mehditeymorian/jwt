@@ -1,11 +1,11 @@
 package key
 
 import (
-	"log"
-	"os"
 	"strconv"
 
 	"github.com/AlecAivazis/survey/v2"
+	"github.com/mehditeymorian/jwt/internal/cmd"
+	"github.com/mehditeymorian/jwt/internal/config"
 	keyGenerator "github.com/mehditeymorian/jwt/internal/key"
 	"github.com/spf13/cobra"
 )
@@ -21,7 +21,9 @@ func hmacCommand() *cobra.Command {
 	return c
 }
 
-func hmac(_ *cobra.Command, _ []string) {
+func hmac(c *cobra.Command, _ []string) {
+	configPath := cmd.GetConfigPath(c)
+	saveFile, saveDefault := cmd.GetKeySaveOptions(c)
 
 	var base64Encoded bool
 	var sizeStr string
@@ -45,19 +47,16 @@ func hmac(_ *cobra.Command, _ []string) {
 
 	size, _ := strconv.ParseInt(sizeStr, 10, 64)
 
-	dir, _ := os.Getwd()
-
 	hmacKey := keyGenerator.GenerateHmacKey(int(size), base64Encoded)
 
-	keyFile, err := os.Create(dir + "/key.txt")
-	if err != nil {
-		log.Fatalf("failed to create key file: %v\n", err)
+	if saveFile {
+		SaveKey("/key.txt", hmacKey)
 	}
-	defer keyFile.Close()
 
-	keyFile.Write(hmacKey)
-
-	log.Printf(`
-	Publickey: %s/key.txt
-`, dir)
+	if saveDefault {
+		cfg := config.Load(configPath)
+		cfg.Hmac.Key = string(hmacKey)
+		cfg.Hmac.Base64Encoded = base64Encoded
+		cfg.Save()
+	}
 }
