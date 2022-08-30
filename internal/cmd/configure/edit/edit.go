@@ -16,6 +16,9 @@ func Command() *cobra.Command {
 		Run:   edit,
 	}
 
+	c.AddCommand(
+		algorithmCommand())
+
 	return c
 }
 
