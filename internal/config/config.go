@@ -91,13 +91,9 @@ func (c *Config) Save() {
 	}
 	defer file.Close()
 
-	data := make(map[string]any)
-
-	c.k.Unmarshal("", &data)
-
 	encoder := yaml.NewEncoder(file)
 
-	err = encoder.Encode(data)
+	err = encoder.Encode(*c)
 	if err != nil {
 		log.Fatalf("failed to write config to file: %v\n", err)
 	}
