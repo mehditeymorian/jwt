@@ -36,6 +36,14 @@ type Config struct {
 	Ecdsa         *Ecdsa        `koanf:"ecdsa"`
 }
 
+type saveConfig struct {
+	SigningMethod SigningMethod `koanf:"signing_method" yaml:"signing_method"`
+	Algorithm     string        `koanf:"algorithm" yaml:"algorithm"`
+	Rsa           *Rsa          `koanf:"rsa" yaml:"rsa"`
+	Hmac          *HMac         `koanf:"hmac" yaml:"hmac"`
+	Ecdsa         *Ecdsa        `koanf:"ecdsa" yaml:"ecdsa"`
+}
+
 func Load(path string) *Config {
 	var cfg Config
 
@@ -91,9 +99,17 @@ func (c *Config) Save() {
 	}
 	defer file.Close()
 
+	saveCfg := saveConfig{
+		SigningMethod: c.SigningMethod,
+		Algorithm:     c.Algorithm,
+		Rsa:           c.Rsa,
+		Hmac:          c.Hmac,
+		Ecdsa:         c.Ecdsa,
+	}
+
 	encoder := yaml.NewEncoder(file)
 
-	err = encoder.Encode(*c)
+	err = encoder.Encode(saveCfg)
 	if err != nil {
 		log.Fatalf("failed to write config to file: %v\n", err)
 	}
