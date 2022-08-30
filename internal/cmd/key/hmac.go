@@ -1,12 +1,14 @@
 package key
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/mehditeymorian/jwt/internal/cmd"
 	"github.com/mehditeymorian/jwt/internal/config"
 	keyGenerator "github.com/mehditeymorian/jwt/internal/key"
+	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
 )
 
@@ -48,6 +50,9 @@ func hmac(c *cobra.Command, _ []string) {
 	size, _ := strconv.ParseInt(sizeStr, 10, 64)
 
 	hmacKey := keyGenerator.GenerateHmacKey(int(size), base64Encoded)
+
+	pterm.Info.Println("key")
+	fmt.Println(string(hmacKey))
 
 	if saveFile {
 		SaveKey("/key.txt", hmacKey)
