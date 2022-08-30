@@ -10,7 +10,7 @@ import (
 func methodCommand() *cobra.Command {
 	c := &cobra.Command{
 		Use:     "method",
-		Short:   "config signing method",
+		Short:   "set encode signing method",
 		Example: "jwt config edit method",
 		Run:     method,
 	}
