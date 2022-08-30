@@ -36,15 +36,15 @@ func Default() Config {
 		SigningMethod: RSA,
 		Algorithm:     "RS512",
 
-		Rsa: Rsa{
+		Rsa: &Rsa{
 			PublicKey:  rsaPublic,
 			PrivateKey: rsaPrivate,
 		},
-		Hmac: HMac{
+		Hmac: &HMac{
 			Key:           string(hmacKey),
 			Base64Encoded: true,
 		},
-		Ecdsa: Ecdsa{
+		Ecdsa: &Ecdsa{
 			PublicKey:  ecPublic,
 			PrivateKey: ecPrivate,
 		},
