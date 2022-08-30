@@ -1,11 +1,10 @@
 package key
 
 import (
-	"log"
-	"os"
 	"strconv"
 
 	"github.com/AlecAivazis/survey/v2"
+	"github.com/mehditeymorian/jwt/internal/cmd"
 	keyGenerator "github.com/mehditeymorian/jwt/internal/key"
 	"github.com/spf13/cobra"
 )
@@ -21,7 +20,8 @@ func rsaCommand() *cobra.Command {
 	return c
 }
 
-func rsa(_ *cobra.Command, _ []string) {
+func rsa(c *cobra.Command, _ []string) {
+	saveFile, saveDefault := cmd.GetKeySaveOptions(c)
 
 	prompt := &survey.Select{
 		Message: "select number of bits",
@@ -41,26 +41,13 @@ func rsa(_ *cobra.Command, _ []string) {
 
 	publicKey, privateKey := keyGenerator.GenerateRsaKeys(int(bits))
 
-	dir, _ := os.Getwd()
-
-	publicPem, err := os.Create(dir + "/public.pem")
-	if err != nil {
-		log.Fatalf("failed to create public pem file: %v\n", err)
+	if saveFile {
+		SaveKey("/public.pem", []byte(publicKey))
+		SaveKey("/private.pem", []byte(privateKey))
 	}
-	defer publicPem.Close()
 
-	publicPem.WriteString(publicKey)
+	if saveDefault {
 
-	privatePem, err := os.Create(dir + "/private.pem")
-	if err != nil {
-		log.Fatalf("failed to create private pem file: %v\n", err)
 	}
-	defer privatePem.Close()
 
-	privatePem.WriteString(privateKey)
-
-	log.Printf(`
-	Publickey: %s/public.pem
-	PrivateKey: %s/private.pem
-`, dir, dir)
 }
