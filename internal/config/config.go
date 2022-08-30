@@ -146,6 +146,36 @@ func (c *Config) Print() {
 
 }
 
+func (c *Config) AlgorithmForMethod() []string {
+	prefix := "-"
+
+	switch c.SigningMethod {
+	case RSA:
+		prefix = "RS"
+	case HMAC:
+		prefix = "HS"
+	case ECDSA:
+		prefix = "ES"
+	default:
+		log.Fatalln("failed to find algorithms for signing method")
+	}
+
+	result := make([]string, 0)
+
+	pattern, err := regexp.Compile(prefix + ".*")
+	if err != nil {
+		log.Fatalf("failed to search for algorithms: %v\n", err)
+	}
+
+	for _, alg := range c.Algorithms {
+		if pattern.MatchString(alg) {
+			result = append(result, alg)
+		}
+	}
+
+	return result
+}
+
 func configFileAddress(userPath string) string {
 	if len(userPath) != 0 {
 		return userPath
