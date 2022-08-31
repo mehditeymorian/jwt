@@ -192,6 +192,16 @@ func (c *Config) AlgorithmForMethod() []string {
 	return result
 }
 
+func (c *Config) PrintMode() {
+	mode := "interactive mode"
+
+	if !c.Interactive {
+		mode = "option mode"
+	}
+
+	pterm.Println(mode)
+}
+
 func configFileAddress(userPath string) string {
 	if len(userPath) != 0 {
 		return userPath

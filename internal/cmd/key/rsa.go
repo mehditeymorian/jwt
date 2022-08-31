@@ -29,16 +29,14 @@ func rsa(c *cobra.Command, _ []string) {
 	cfg := config.Load(configPath)
 
 	var bits int
-	mode := "interactive mode"
 
 	if cfg.Interactive {
 		bits = askRsaOptions()
 	} else {
 		bits = flagRsaOptions(c)
-		mode = "option mode"
 	}
 
-	pterm.Info.Println(mode)
+	cfg.PrintMode()
 	pterm.Info.Println("bits: " + pterm.Blue(bits))
 
 	publicKey, privateKey := keyGenerator.GenerateRsaKeys(bits)

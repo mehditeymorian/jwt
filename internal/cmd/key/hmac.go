@@ -33,16 +33,13 @@ func hmac(c *cobra.Command, _ []string) {
 	var size int
 	var base64Encoded bool
 
-	mode := "interactive mode"
-
 	if cfg.Interactive {
 		size, base64Encoded = askHmacOptions()
 	} else {
 		size, base64Encoded = flagHmacOptions(c)
-		mode = "option mode"
 	}
 
-	pterm.Info.Println(mode)
+	cfg.PrintMode()
 	pterm.Info.Println("size: " + pterm.Blue(size) + " base64Encoded: " + pterm.Blue(base64Encoded))
 
 	hmacKey := keyGenerator.GenerateHmacKey(size, base64Encoded)
