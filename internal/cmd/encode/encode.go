@@ -98,6 +98,9 @@ func flagOptions(c *cobra.Command) model.Encode {
 	iss, _ := c.Flags().GetString("issuer")
 	aud, _ := c.Flags().GetString("audience")
 	alg, _ := c.Flags().GetString("algorithm")
+	if alg == "" {
+		pterm.Fatal.Println("you have to specify algorithm")
+	}
 
 	return model.Encode{
 		Algorithm:  alg,
