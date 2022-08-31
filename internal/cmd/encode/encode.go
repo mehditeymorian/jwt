@@ -12,7 +12,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func Encode() *cobra.Command {
+func Command() *cobra.Command {
 	root := &cobra.Command{ //nolint:exhaustivestruct
 		Use:     "encode",
 		Short:   "Create JWT Token",

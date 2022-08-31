@@ -10,7 +10,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func Key() *cobra.Command {
+func Command() *cobra.Command {
 	c := &cobra.Command{
 		Use:     "key",
 		Short:   "generate different jwt keys",

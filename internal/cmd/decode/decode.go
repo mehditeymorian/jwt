@@ -12,7 +12,7 @@ import (
 	"github.com/tidwall/pretty"
 )
 
-func Decode() *cobra.Command {
+func Command() *cobra.Command {
 	command := &cobra.Command{
 		Use:     "decode",
 		Short:   "decode jwt token",

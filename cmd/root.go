@@ -23,16 +23,16 @@ func Execute() {
 	rootCmd := &cobra.Command{ //nolint:exhaustruct,exhaustivestruct
 		Use:   "jwt",
 		Short: "JWT Encoder and Decoder",
-		Long:  `Encode and Decode JWT Tokens`,
+		Long:  `Command and Command JWT Tokens`,
 	}
 	cmd.SetConfigFlag(rootCmd)
 
 	rootCmd.AddCommand(
-		encode.Encode(),
-		decode.Decode(),
-		configure.Configure(),
+		encode.Command(),
+		decode.Command(),
+		configure.Command(),
 		edit.Command(),
-		key.Key(),
+		key.Command(),
 	)
 
 	if err := rootCmd.Execute(); err != nil {

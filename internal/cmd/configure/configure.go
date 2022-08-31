@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func Configure() *cobra.Command {
+func Command() *cobra.Command {
 	c := &cobra.Command{
 		Use:   "config",
 		Short: "config jwt cli",
