@@ -21,7 +21,7 @@ func GenerateEcdsaKeys(curve string) (string, string) {
 	case "P521":
 		ellipticCurve = elliptic.P521()
 	case "P256":
-		fallthrough
+		ellipticCurve = elliptic.P256()
 	default:
 		pterm.Warning.Println("elliptic curve is not valid. choosing P256 as elliptic curve")
 
