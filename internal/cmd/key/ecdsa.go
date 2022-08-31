@@ -27,11 +27,17 @@ func ecdsa(c *cobra.Command, _ []string) {
 	cfg := config.Load(configPath)
 
 	var ellipticCurve string
+	mode := "interactive mode"
+
 	if cfg.Interactive {
 		ellipticCurve = askEcdsaOptions()
 	} else {
 		ellipticCurve = flagEcdsaOptions(c)
+		mode = "option mode"
 	}
+
+	pterm.Info.Println(mode)
+	pterm.Println("curve: " + pterm.Blue(ellipticCurve))
 
 	publicKey, privateKey := keyGenerator.GenerateEcdsaKeys(ellipticCurve)
 
