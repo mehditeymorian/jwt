@@ -2,10 +2,10 @@ package config
 
 import (
 	"encoding/base64"
-	"fmt"
 	"regexp"
 
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/pterm/pterm"
 )
 
 func (c *Config) DecodeKey(algorithm string) any {
@@ -26,7 +26,7 @@ func (c *Config) DecodeKey(algorithm string) any {
 	}
 
 	if err != nil {
-		panic(fmt.Errorf("failed to read decode key from config: %w", err))
+		pterm.Fatal.Printf("failed to read decode key from config: %v", err)
 	}
 
 	return key
@@ -50,7 +50,7 @@ func (c *Config) EncodeKey() any {
 	}
 
 	if err != nil {
-		panic(fmt.Errorf("failed to read encode key from config: %w", err))
+		pterm.Fatal.Printf("failed to read encode key from config: %w", err)
 	}
 
 	return key

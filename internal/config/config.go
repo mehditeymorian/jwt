@@ -12,6 +12,7 @@ import (
 	"github.com/knadh/koanf/providers/env"
 	"github.com/knadh/koanf/providers/file"
 	"github.com/knadh/koanf/providers/structs"
+	"github.com/pterm/pterm"
 	"github.com/tidwall/pretty"
 	"gopkg.in/yaml.v3"
 )
@@ -61,11 +62,11 @@ func Load(path string) *Config {
 
 	// load default configuration
 	if err := k.Load(structs.Provider(Default(), "koanf"), nil); err != nil {
-		log.Fatalf("error loading default config: %v", err)
+		pterm.Fatal.Printf("error loading default config: %v", err)
 	}
 
 	if err := k.Load(file.Provider(configPath), koanfYaml.Parser()); err != nil {
-		log.Printf("error loading config.yaml: %v", err)
+		pterm.Warning.Printf("error loading config.yaml: %v", err)
 	}
 
 	// load environment variables
@@ -83,22 +84,22 @@ func Load(path string) *Config {
 		return finalKey, value
 	}
 	if err := k.Load(env.ProviderWithValue(PREFIX, ".", cb), nil); err != nil {
-		log.Printf("error loading environment variables: %v", err)
+		pterm.Warning.Printf("error loading environment variables: %v", err)
 	}
 
 	if err := k.Unmarshal("", &cfg); err != nil {
-		log.Fatalf("error unmarshaling config: %v", err)
+		pterm.Fatal.Printf("error unmarshaling config: %v", err)
 	}
 
 	return &cfg
 }
 
 func (c *Config) Save() {
-	log.Printf("saving config in %s\n", c.loadedPath)
+	pterm.Info.Printf("saving config in %s\n", c.loadedPath)
 
 	file, err := os.OpenFile(c.loadedPath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0600)
 	if err != nil {
-		log.Fatalf("error opening/creating config file: %v", err)
+		pterm.Fatal.Printf("error opening/creating config file: %v", err)
 	}
 	defer file.Close()
 
@@ -113,7 +114,7 @@ func (c *Config) Save() {
 
 	err = encoder.Encode(saveCfg)
 	if err != nil {
-		log.Fatalf("failed to write config to file: %v\n", err)
+		pterm.Fatal.Printf("failed to write config to file: %v\n", err)
 	}
 }
 
@@ -135,6 +136,8 @@ func (c *Config) PrintableConfig() map[string]any {
 		config = c.Hmac
 	case ECDSA:
 		config = c.Ecdsa
+	default:
+		pterm.Fatal.Printf("invalid signing_method: %s", c.SigningMethod)
 	}
 
 	result["signing_method"] = c.SigningMethod
@@ -146,7 +149,7 @@ func (c *Config) PrintableConfig() map[string]any {
 func (c *Config) Print() {
 	indent, err := json.MarshalIndent(c.PrintableConfig(), "", "\t")
 	if err != nil {
-		log.Fatalf("error marshal config: %v", err)
+		pterm.Fatal.Printf("error marshal config: %v", err)
 	}
 
 	indent = pretty.Color(indent, nil)
@@ -170,14 +173,14 @@ func (c *Config) AlgorithmForMethod() []string {
 	case ECDSA:
 		prefix = "ES"
 	default:
-		log.Fatalln("failed to find algorithms for signing method")
+		pterm.Fatal.Println("failed to find algorithms for signing method")
 	}
 
 	result := make([]string, 0)
 
 	pattern, err := regexp.Compile(prefix + ".*")
 	if err != nil {
-		log.Fatalf("failed to search for algorithms: %v\n", err)
+		pterm.Fatal.Printf("failed to search for algorithms: %v\n", err)
 	}
 
 	for _, alg := range c.Algorithms {
