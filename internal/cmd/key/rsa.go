@@ -36,7 +36,7 @@ func rsa(c *cobra.Command, _ []string) {
 		bits = flagRsaOptions(c)
 	}
 
-	publicKey, privateKey := keyGenerator.GenerateRsaKeys(int(bits))
+	publicKey, privateKey := keyGenerator.GenerateRsaKeys(bits)
 
 	publicBox := pterm.DefaultBox.WithTitle("Public Key").Sprint(publicKey)
 	privateBox := pterm.DefaultBox.WithTitle("Private Key").Sprint(privateKey)
