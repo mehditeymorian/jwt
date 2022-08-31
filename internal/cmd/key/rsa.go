@@ -18,6 +18,7 @@ func rsaCommand() *cobra.Command {
 		Example: "jwt key rsa",
 		Run:     rsa,
 	}
+	c.Flags().IntP("bits", "b", 1024, "number of bits")
 
 	return c
 }
@@ -25,22 +26,15 @@ func rsaCommand() *cobra.Command {
 func rsa(c *cobra.Command, _ []string) {
 	configPath := cmd.GetConfigPath(c)
 	saveFile, saveDefault := cmd.GetKeySaveOptions(c)
+	cfg := config.Load(configPath)
 
-	prompt := &survey.Select{
-		Message: "select number of bits",
-		Options: []string{
-			"512",
-			"1024",
-			"2048",
-			"4096",
-		},
+	var bits int
+
+	if cfg.Interactive {
+		bits = askRsaOptions()
+	} else {
+		bits = flagRsaOptions(c)
 	}
-
-	var bitsStr string
-
-	survey.AskOne(prompt, &bitsStr)
-
-	bits, _ := strconv.ParseInt(bitsStr, 10, 64)
 
 	publicKey, privateKey := keyGenerator.GenerateRsaKeys(int(bits))
 
@@ -55,10 +49,35 @@ func rsa(c *cobra.Command, _ []string) {
 	}
 
 	if saveDefault {
-		cfg := config.Load(configPath)
 		cfg.Rsa.PublicKey = publicKey
 		cfg.Rsa.PrivateKey = privateKey
 		cfg.Save()
 	}
 
+}
+
+func askRsaOptions() int {
+	var bitsStr string
+
+	prompt := &survey.Select{
+		Message: "select number of bits",
+		Options: []string{
+			"512",
+			"1024",
+			"2048",
+			"4096",
+		},
+	}
+
+	survey.AskOne(prompt, &bitsStr)
+
+	bits, _ := strconv.ParseInt(bitsStr, 10, 64)
+
+	return int(bits)
+}
+
+func flagRsaOptions(c *cobra.Command) int {
+	bits, _ := c.Flags().GetInt("bits")
+
+	return bits
 }
