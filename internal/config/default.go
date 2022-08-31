@@ -36,7 +36,6 @@ func Default() Config {
 		Interactive: true,
 
 		SigningMethod: RSA,
-		Algorithm:     "RS512",
 
 		Rsa: &Rsa{
 			PublicKey:  rsaPublic,

@@ -32,7 +32,6 @@ type Config struct {
 	Interactive bool `koanf:"interactive"`
 
 	SigningMethod SigningMethod `koanf:"signing_method"`
-	Algorithm     string        `koanf:"algorithm"`
 	Rsa           *Rsa          `koanf:"rsa"`
 	Hmac          *HMac         `koanf:"hmac"`
 	Ecdsa         *Ecdsa        `koanf:"ecdsa"`
@@ -105,7 +104,6 @@ func (c *Config) Save() {
 
 	saveCfg := saveConfig{
 		SigningMethod: c.SigningMethod,
-		Algorithm:     c.Algorithm,
 		Rsa:           c.Rsa,
 		Hmac:          c.Hmac,
 		Ecdsa:         c.Ecdsa,
@@ -140,7 +138,6 @@ func (c *Config) PrintableConfig() map[string]any {
 	}
 
 	result["signing_method"] = c.SigningMethod
-	result["algorithm"] = c.Algorithm
 	result[string(c.SigningMethod)] = config
 
 	return result
