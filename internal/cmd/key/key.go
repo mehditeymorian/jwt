@@ -1,12 +1,12 @@
 package key
 
 import (
-	"log"
 	"os"
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/mehditeymorian/jwt/internal/cmd"
 	"github.com/mehditeymorian/jwt/internal/config"
+	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
 )
 
@@ -52,7 +52,7 @@ func key(cmd *cobra.Command, args []string) {
 		ecdsa(cmd, args)
 
 	default:
-		log.Println("this type of key is not provided")
+		pterm.Warning.Println("this type of key is not provided")
 	}
 
 }
@@ -62,11 +62,11 @@ func SaveKey(filename string, content []byte) {
 
 	file, err := os.Create(dir + filename)
 	if err != nil {
-		log.Fatalf("failed to save key in file: %v\n", err)
+		pterm.Fatal.Printf("failed to save key in file: %v\n", err)
 	}
 	defer file.Close()
 
 	file.Write(content)
 
-	log.Printf("key stored in %s/public.pem\n", dir)
+	pterm.Success.Printf("key stored in %s/public.pem\n", dir)
 }
