@@ -29,6 +29,8 @@ type Config struct {
 	Algorithms  []string
 	Expirations []string
 
+	Interactive bool `koanf:"interactive"`
+
 	SigningMethod SigningMethod `koanf:"signing_method"`
 	Algorithm     string        `koanf:"algorithm"`
 	Rsa           *Rsa          `koanf:"rsa"`
@@ -37,6 +39,8 @@ type Config struct {
 }
 
 type saveConfig struct {
+	Interactive bool `koanf:"interactive"`
+
 	SigningMethod SigningMethod `koanf:"signing_method" yaml:"signing_method"`
 	Algorithm     string        `koanf:"algorithm" yaml:"algorithm"`
 	Rsa           *Rsa          `koanf:"rsa" yaml:"rsa"`

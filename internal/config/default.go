@@ -33,6 +33,8 @@ func Default() Config {
 			"8760h",
 		},
 
+		Interactive: true,
+
 		SigningMethod: RSA,
 		Algorithm:     "RS512",
 
