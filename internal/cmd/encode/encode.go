@@ -19,6 +19,11 @@ func Encode() *cobra.Command {
 		Long:  "Create JWT Token",
 		Run:   main,
 	}
+	root.Flags().StringP("expiration", "e", "1h", "token expires after how long")
+	root.Flags().StringP("subject", "s", "", "token subject")
+	root.Flags().StringP("issuer", "i", "", "token issuer")
+	root.Flags().StringP("audience", "a", "", "token audience")
+	root.Flags().StringP("algorithm", "A", "", "signing method algorithm")
 
 	return root
 }
@@ -28,6 +33,23 @@ func main(c *cobra.Command, _ []string) {
 
 	cfg := config.Load(configPath)
 
+	var encode model.Encode
+
+	if cfg.Interactive {
+		encode = askOptions(cfg)
+	} else {
+		encode = flagOptions(c)
+	}
+
+	token, err := jwt.Encode(encode, cfg.EncodeKey())
+	if err != nil {
+		log.Fatalf("failed to generate JWT token: %v", err)
+	}
+
+	log.Printf("Token: %s\n", token)
+}
+
+func askOptions(cfg *config.Config) model.Encode {
 	var encode model.Encode
 
 	qs := []*survey.Question{
@@ -57,16 +79,32 @@ func main(c *cobra.Command, _ []string) {
 				Message: "Audience",
 			},
 		},
+		{
+			Name: "Algorithm",
+			Prompt: &survey.Select{
+				Message: "Algorithm",
+				Options: cfg.AlgorithmForMethod(),
+			},
+		},
 	}
 
 	survey.Ask(qs, &encode, nil)
 
-	encode.Algorithm = cfg.Algorithm
+	return encode
+}
 
-	token, err := jwt.Encode(encode, cfg.EncodeKey())
-	if err != nil {
-		log.Fatalf("failed to generate JWT token: %v", err)
+func flagOptions(c *cobra.Command) model.Encode {
+	exp, _ := c.Flags().GetString("expiration")
+	sub, _ := c.Flags().GetString("subject")
+	iss, _ := c.Flags().GetString("issuer")
+	aud, _ := c.Flags().GetString("audience")
+	alg, _ := c.Flags().GetString("algorithm")
+
+	return model.Encode{
+		Algorithm:  alg,
+		Expiration: exp,
+		Issuer:     iss,
+		Subject:    sub,
+		Audience:   aud,
 	}
-
-	log.Printf("Token: %s\n", token)
 }
