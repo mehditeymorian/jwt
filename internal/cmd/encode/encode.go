@@ -14,10 +14,10 @@ import (
 
 func Encode() *cobra.Command {
 	root := &cobra.Command{ //nolint:exhaustivestruct
-		Use:   "encode",
-		Short: "Create JWT Token",
-		Long:  "Create JWT Token",
-		Run:   main,
+		Use:     "encode",
+		Short:   "Create JWT Token",
+		Example: `jwt encode -e 2h -s finance -i "jwt-cli" -a people -A RS512`,
+		Run:     main,
 	}
 	root.Flags().StringP("expiration", "e", "1h", "token expires after how long")
 	root.Flags().StringP("subject", "s", "", "token subject")

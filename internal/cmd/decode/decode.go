@@ -14,10 +14,11 @@ import (
 
 func Decode() *cobra.Command {
 	command := &cobra.Command{
-		Use:   "decode",
-		Short: "decode jwt token",
-		Long:  "decode jwt token",
-		Run:   decode,
+		Use:     "decode",
+		Short:   "decode jwt token",
+		Long:    "decode jwt token",
+		Example: "jwt decode <TOKEN>",
+		Run:     decode,
 	}
 
 	return command
