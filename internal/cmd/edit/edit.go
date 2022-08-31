@@ -17,14 +17,14 @@ func Command() *cobra.Command {
 		Run:     edit,
 	}
 
-	c.AddCommand(
-		algorithmCommand(),
-		methodCommand())
-
 	return c
 }
 
 func edit(c *cobra.Command, _ []string) {
+	openVim(c)
+}
+
+func openVim(c *cobra.Command) {
 	configPath := cmd.GetConfigPath(c)
 
 	if _, err := os.Stat(configPath); err != nil {

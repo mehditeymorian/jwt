@@ -10,6 +10,7 @@ import (
 	"github.com/mehditeymorian/jwt/internal/cmd"
 	"github.com/mehditeymorian/jwt/internal/cmd/configure"
 	"github.com/mehditeymorian/jwt/internal/cmd/decode"
+	"github.com/mehditeymorian/jwt/internal/cmd/edit"
 	"github.com/mehditeymorian/jwt/internal/cmd/encode"
 	"github.com/mehditeymorian/jwt/internal/cmd/key"
 
@@ -30,6 +31,7 @@ func Execute() {
 		encode.Encode(),
 		decode.Decode(),
 		configure.Configure(),
+		edit.Command(),
 		key.Key(),
 	)
 
