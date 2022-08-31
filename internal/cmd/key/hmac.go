@@ -19,6 +19,8 @@ func hmacCommand() *cobra.Command {
 		Example: "jwt key hmac",
 		Run:     hmac,
 	}
+	c.Flags().BoolP("base64", "b", true, "produce base64 encoded key")
+	c.Flags().IntP("size", "s", 64, "size of key")
 
 	return c
 }
@@ -26,7 +28,34 @@ func hmacCommand() *cobra.Command {
 func hmac(c *cobra.Command, _ []string) {
 	configPath := cmd.GetConfigPath(c)
 	saveFile, saveDefault := cmd.GetKeySaveOptions(c)
+	cfg := config.Load(configPath)
 
+	var size int
+	var base64Encoded bool
+
+	if cfg.Interactive {
+		size, base64Encoded = askHmacOptions()
+	} else {
+		size, base64Encoded = flagHmacOptions(c)
+	}
+
+	hmacKey := keyGenerator.GenerateHmacKey(size, base64Encoded)
+
+	pterm.Info.Println("key")
+	fmt.Println(string(hmacKey))
+
+	if saveFile {
+		SaveKey("/key.txt", hmacKey)
+	}
+
+	if saveDefault {
+		cfg.Hmac.Key = string(hmacKey)
+		cfg.Hmac.Base64Encoded = base64Encoded
+		cfg.Save()
+	}
+}
+
+func askHmacOptions() (int, bool) {
 	var base64Encoded bool
 	var sizeStr string
 
@@ -49,19 +78,12 @@ func hmac(c *cobra.Command, _ []string) {
 
 	size, _ := strconv.ParseInt(sizeStr, 10, 64)
 
-	hmacKey := keyGenerator.GenerateHmacKey(int(size), base64Encoded)
+	return int(size), base64Encoded
+}
 
-	pterm.Info.Println("key")
-	fmt.Println(string(hmacKey))
+func flagHmacOptions(c *cobra.Command) (int, bool) {
+	size, _ := c.Flags().GetInt("size")
+	base64, _ := c.Flags().GetBool("base64")
 
-	if saveFile {
-		SaveKey("/key.txt", hmacKey)
-	}
-
-	if saveDefault {
-		cfg := config.Load(configPath)
-		cfg.Hmac.Key = string(hmacKey)
-		cfg.Hmac.Base64Encoded = base64Encoded
-		cfg.Save()
-	}
+	return size, base64
 }
