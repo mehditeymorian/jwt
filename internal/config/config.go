@@ -62,11 +62,11 @@ func Load(path string) *Config {
 
 	// load default configuration
 	if err := k.Load(structs.Provider(Default(), "koanf"), nil); err != nil {
-		pterm.Fatal.Printf("error loading default config: %v", err)
+		pterm.Fatal.Printf("error loading default config: %v\n", err)
 	}
 
 	if err := k.Load(file.Provider(configPath), koanfYaml.Parser()); err != nil {
-		pterm.Warning.Printf("error loading config.yaml: %v", err)
+		pterm.Warning.Printf("error loading config.yaml: %v\n", err)
 	}
 
 	// load environment variables
@@ -84,11 +84,11 @@ func Load(path string) *Config {
 		return finalKey, value
 	}
 	if err := k.Load(env.ProviderWithValue(PREFIX, ".", cb), nil); err != nil {
-		pterm.Warning.Printf("error loading environment variables: %v", err)
+		pterm.Warning.Printf("error loading environment variables: %v\n", err)
 	}
 
 	if err := k.Unmarshal("", &cfg); err != nil {
-		pterm.Fatal.Printf("error unmarshaling config: %v", err)
+		pterm.Fatal.Printf("error unmarshaling config: %v\n", err)
 	}
 
 	return &cfg
@@ -99,7 +99,7 @@ func (c *Config) Save() {
 
 	file, err := os.OpenFile(c.loadedPath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0600)
 	if err != nil {
-		pterm.Fatal.Printf("error opening/creating config file: %v", err)
+		pterm.Fatal.Printf("error opening/creating config file: %v\n", err)
 	}
 	defer file.Close()
 
@@ -137,7 +137,7 @@ func (c *Config) PrintableConfig() map[string]any {
 	case ECDSA:
 		config = c.Ecdsa
 	default:
-		pterm.Fatal.Printf("invalid signing_method: %s", c.SigningMethod)
+		pterm.Fatal.Printf("invalid signing_method: %s\n", c.SigningMethod)
 	}
 
 	result["signing_method"] = c.SigningMethod
@@ -149,7 +149,7 @@ func (c *Config) PrintableConfig() map[string]any {
 func (c *Config) Print() {
 	indent, err := json.MarshalIndent(c.PrintableConfig(), "", "\t")
 	if err != nil {
-		pterm.Fatal.Printf("error marshal config: %v", err)
+		pterm.Fatal.Printf("error marshal config: %v\n", err)
 	}
 
 	indent = pretty.Color(indent, nil)

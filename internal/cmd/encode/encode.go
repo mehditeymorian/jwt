@@ -42,10 +42,10 @@ func main(c *cobra.Command, _ []string) {
 
 	token, err := jwt.Encode(encode, cfg.EncodeKey())
 	if err != nil {
-		pterm.Fatal.Printf("failed to generate JWT token: %v", err)
+		pterm.Fatal.Printf("failed to generate JWT token: %v\n", err)
 	}
 
-	pterm.Success.WithPrefix(pterm.Prefix{Text: "Token"}).Println(token)
+	pterm.Success.Println("token: " + pterm.Blue(token))
 }
 
 func askOptions(cfg *config.Config) model.Encode {
