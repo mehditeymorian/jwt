@@ -3,9 +3,7 @@ package key
 import (
 	"os"
 
-	"github.com/AlecAivazis/survey/v2"
 	"github.com/mehditeymorian/jwt/internal/cmd"
-	"github.com/mehditeymorian/jwt/internal/config"
 	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
 )
@@ -14,7 +12,6 @@ func Command() *cobra.Command {
 	c := &cobra.Command{
 		Use:     "key",
 		Short:   "generate different jwt keys",
-		Run:     key,
 		Example: "jwt key rsa|hmac|ecdsa",
 	}
 	cmd.SetKeyFlags(c)
@@ -26,35 +23,6 @@ func Command() *cobra.Command {
 	)
 
 	return c
-}
-
-func key(cmd *cobra.Command, args []string) {
-
-	prompt := &survey.Select{
-		Message: "select key type",
-		Options: []string{
-			string(config.RSA),
-			string(config.HMAC),
-			string(config.ECDSA),
-		},
-	}
-
-	var selected string
-
-	survey.AskOne(prompt, &selected)
-
-	switch config.SigningMethod(selected) {
-	case config.RSA:
-		rsa(cmd, args)
-	case config.HMAC:
-		hmac(cmd, args)
-	case config.ECDSA:
-		ecdsa(cmd, args)
-
-	default:
-		pterm.Warning.Println("this type of key is not provided")
-	}
-
 }
 
 func SaveKey(filename string, content []byte) {
