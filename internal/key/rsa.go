@@ -5,11 +5,15 @@ import (
 	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
+
+	"github.com/pterm/pterm"
 )
 
 func GenerateRsaKeys(bits int) (string, string) {
 	privateKey, err := rsa.GenerateKey(rand.Reader, bits)
 	if err != nil {
+		pterm.Fatal.Println("failed to generate rsa keys")
+
 		return "", ""
 	}
 

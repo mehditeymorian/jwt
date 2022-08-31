@@ -3,6 +3,8 @@ package key
 import (
 	"crypto/rand"
 	"encoding/base64"
+
+	"github.com/pterm/pterm"
 )
 
 func GenerateHmacKey(size int, base64Encoded bool) []byte {
@@ -11,6 +13,8 @@ func GenerateHmacKey(size int, base64Encoded bool) []byte {
 
 	_, err := rand.Reader.Read(key)
 	if err != nil {
+		pterm.Fatal.Println("failed to generate hmac key")
+
 		return nil
 	}
 
