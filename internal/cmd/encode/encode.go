@@ -1,12 +1,11 @@
 package encode
 
 import (
-	"log"
-
 	"github.com/mehditeymorian/jwt/internal/cmd"
 	"github.com/mehditeymorian/jwt/internal/config"
 	"github.com/mehditeymorian/jwt/internal/jwt"
 	"github.com/mehditeymorian/jwt/internal/model"
+	"github.com/pterm/pterm"
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/spf13/cobra"
@@ -43,10 +42,10 @@ func main(c *cobra.Command, _ []string) {
 
 	token, err := jwt.Encode(encode, cfg.EncodeKey())
 	if err != nil {
-		log.Fatalf("failed to generate JWT token: %v", err)
+		pterm.Fatal.Printf("failed to generate JWT token: %v", err)
 	}
 
-	log.Printf("Token: %s\n", token)
+	pterm.Success.WithPrefix(pterm.Prefix{Text: "Token"}).Println(token)
 }
 
 func askOptions(cfg *config.Config) model.Encode {
