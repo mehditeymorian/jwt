@@ -2,12 +2,12 @@ package decode
 
 import (
 	"encoding/json"
-	"log"
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/mehditeymorian/jwt/internal/cmd"
 	"github.com/mehditeymorian/jwt/internal/config"
 	"github.com/mehditeymorian/jwt/internal/jwt"
+	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
 	"github.com/tidwall/pretty"
 )
@@ -42,13 +42,13 @@ func decode(c *cobra.Command, args []string) {
 
 	token, err := jwt.Decode(strToken, cfg)
 	if err != nil {
-		log.Fatalf("failed to decode token: %v", err)
+		pterm.Fatal.Printf("failed to decode token: %v", err)
 	}
 
 	if token.Valid {
-		log.Println("Token is Valid.")
+		pterm.Success.Println("Token is Valid.")
 	} else {
-		log.Println("Token is Invalid.")
+		pterm.Warning.Println("Token is Invalid.")
 	}
 
 	result := make(map[string]any)
@@ -57,14 +57,10 @@ func decode(c *cobra.Command, args []string) {
 
 	indent, err := json.MarshalIndent(result, "", "\t")
 	if err != nil {
-		log.Fatalf("error marshaling result: %v", err)
+		pterm.Fatal.Printf("error marshaling result: %v", err)
 	}
 
 	indent = pretty.Color(indent, nil)
-	cfgStrTemplate := `
-	================ Decoded JWT Token ================
-	%s
-	===================================================
-	`
-	log.Printf(cfgStrTemplate, string(indent))
+
+	pterm.DefaultBox.WithTitle("Decoded JWT Token").Println(string(indent))
 }
