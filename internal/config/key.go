@@ -54,7 +54,7 @@ func (c *Config) DecodeKey(algorithm string) any {
 	}
 
 	if err != nil {
-		pterm.Fatal.Printf("failed to read decode key from config: %v\n", err)
+		pterm.Fatal.Printf("failed to read decode key: %v\n", err)
 	}
 
 	return key
