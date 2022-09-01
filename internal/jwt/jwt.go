@@ -10,8 +10,6 @@ import (
 	"github.com/mehditeymorian/jwt/internal/model"
 )
 
-var errInvalidSigningMethod = errors.New("signing method dosn't match with configuration")
-
 func Encode(encode model.Encode, key any) (string, error) {
 	exp, _ := time.ParseDuration(encode.Expiration)
 
