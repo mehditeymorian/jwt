@@ -15,6 +15,8 @@ func (c *Config) DecodeKey(algorithm string) any {
 
 	switch {
 	case matchAlgorithm("(R|P)S.*", algorithm):
+		pterm.Info.Println("Using RSA key for decoding")
+
 		temp := c.Rsa.PublicKey
 		if temp == "" {
 			pterm.Warning.Println("RSA key is not available, generating random rsa key")
@@ -24,6 +26,8 @@ func (c *Config) DecodeKey(algorithm string) any {
 
 		key, err = jwt.ParseRSAPublicKeyFromPEM([]byte(temp))
 	case matchAlgorithm("HS.*", algorithm):
+		pterm.Info.Println("Using HMAC key for decoding")
+
 		temp := c.Hmac.Key
 		if temp == "" {
 			pterm.Warning.Println("Hmac key is not available, generating random hmac key")
@@ -37,6 +41,8 @@ func (c *Config) DecodeKey(algorithm string) any {
 			key = []byte(temp)
 		}
 	case matchAlgorithm("ES.*", algorithm):
+		pterm.Info.Println("Using ECDSA key for decoding")
+
 		temp := c.Ecdsa.PublicKey
 		if temp == "" {
 			pterm.Warning.Println("Ecdsa key is not available, generating random Ecdsa key")
