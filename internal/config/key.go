@@ -68,14 +68,36 @@ func (c *Config) EncodeKey() any {
 
 	switch c.SigningMethod {
 	case RSA:
-		key, err = jwt.ParseRSAPrivateKeyFromPEM([]byte(c.Rsa.PrivateKey))
+		temp := c.Rsa.PrivateKey
+
+		if temp == "" {
+			pterm.Warning.Println("RSA key is not available, generating random rsa key")
+
+			_, temp = keyGenerator.GenerateRsaKeys(2048)
+		}
+
+		key, err = jwt.ParseRSAPrivateKeyFromPEM([]byte(temp))
 	case ECDSA:
-		key, err = jwt.ParseECPrivateKeyFromPEM([]byte(c.Ecdsa.PrivateKey))
+		temp := c.Ecdsa.PrivateKey
+
+		if temp == "" {
+			pterm.Warning.Println("ECDSA key is not available, generating random key")
+		}
+
+		key, err = jwt.ParseECPrivateKeyFromPEM([]byte(temp))
 	case HMAC:
+		temp := c.Hmac.Key
+
+		if temp == "" {
+			pterm.Warning.Println("HMAC key is not available, generating random key")
+
+			temp = string(keyGenerator.GenerateHmacKey(64, true))
+		}
+
 		if c.Hmac.Base64Encoded {
-			key, err = base64.StdEncoding.DecodeString(c.Hmac.Key)
+			key, err = base64.StdEncoding.DecodeString(temp)
 		} else {
-			key = []byte(c.Hmac.Key)
+			key = []byte(temp)
 		}
 	}
 
