@@ -16,7 +16,7 @@ func ecdsaCommand() *cobra.Command {
 		Example: "jwt key ecdsa",
 		Run:     ecdsa,
 	}
-	c.Flags().StringP("curve", "c", "P256", "elliptic curve")
+	c.Flags().StringP("elliptic", "e", "P256", "elliptic curve")
 
 	return c
 }
@@ -35,7 +35,7 @@ func ecdsa(c *cobra.Command, _ []string) {
 	}
 
 	cfg.PrintMode()
-	pterm.Println("curve: " + pterm.Blue(ellipticCurve))
+	pterm.Println("elliptic curve: " + pterm.Blue(ellipticCurve))
 
 	publicKey, privateKey := keyGenerator.GenerateEcdsaKeys(ellipticCurve)
 
@@ -58,7 +58,7 @@ func ecdsa(c *cobra.Command, _ []string) {
 
 func askEcdsaOptions() string {
 	prompt := &survey.Select{
-		Message: "select number of bits",
+		Message: "select elliptic curve",
 		Options: []string{
 			"P224",
 			"P256",
@@ -75,7 +75,7 @@ func askEcdsaOptions() string {
 }
 
 func flagEcdsaOptions(c *cobra.Command) string {
-	curve, _ := c.Flags().GetString("curve")
+	curve, _ := c.Flags().GetString("elliptic")
 
 	return curve
 }
