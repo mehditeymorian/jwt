@@ -19,6 +19,9 @@ func GenerateRsaKeys(bits int) (string, string) {
 	}
 
 	publicKey, err := asn1.Marshal(privateKey.PublicKey)
+	if err != nil {
+		pterm.Fatal.Printf("failed to generate public key: %v\n", err)
+	}
 
 	pemEncodedPub := pem.EncodeToMemory(&pem.Block{Type: "PUBLIC KEY", Bytes: publicKey})
 
