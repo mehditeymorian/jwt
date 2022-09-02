@@ -1,12 +1,7 @@
 package config
 
 import (
-	"crypto/ecdsa"
-	"crypto/rsa"
-	"crypto/x509"
-	"encoding/asn1"
 	"encoding/base64"
-	"encoding/pem"
 	"regexp"
 
 	"github.com/golang-jwt/jwt/v4"
@@ -29,17 +24,7 @@ func (c *Config) DecodeKey(algorithm string) any {
 			temp, _ = keyGenerator.GenerateRsaKeys(2048)
 		}
 
-		block, _ := pem.Decode([]byte(temp))
-		if block == nil || block.Type != "PUBLIC KEY" {
-			pterm.Fatal.Println("failed to decode pem value containing public key")
-		}
-
-		var publicKey rsa.PublicKey
-		if _, err := asn1.Unmarshal(block.Bytes, &publicKey); err != nil {
-			pterm.Fatal.Printf("failed to unmarshal asn1 data to public key: %v\n", err)
-		}
-
-		key = &publicKey
+		key = keyGenerator.DecodeRsaPublicKey(temp)
 		err = nil
 	case matchAlgorithm("HS.*", algorithm):
 		pterm.Info.Println("Using HMAC key for decoding")
@@ -66,17 +51,7 @@ func (c *Config) DecodeKey(algorithm string) any {
 			temp, _ = keyGenerator.GenerateEcdsaKeys("P256")
 		}
 
-		block, _ := pem.Decode([]byte(temp))
-		if block == nil || block.Type != "PUBLIC KEY" {
-			pterm.Fatal.Println("failed to decode pem value containing public key")
-		}
-
-		parsedKey, err := x509.ParsePKIXPublicKey(block.Bytes)
-		if err != nil {
-			pterm.Fatal.Printf("failed to unmarshal pkix data to public key: %v\n", err)
-		}
-
-		key = parsedKey.(*ecdsa.PublicKey)
+		key = keyGenerator.DecodeEcdsaPublicKey(temp)
 		err = nil
 	}
 

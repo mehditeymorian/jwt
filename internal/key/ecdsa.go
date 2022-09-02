@@ -55,3 +55,17 @@ func GenerateEcdsaKeys(curve string) (string, string) {
 
 	return string(pemEncodedPub), string(pemEncoded)
 }
+
+func DecodeEcdsaPublicKey(public string) *ecdsa.PublicKey {
+	block, _ := pem.Decode([]byte(public))
+	if block == nil || block.Type != "PUBLIC KEY" {
+		pterm.Fatal.Println("failed to decode pem value containing public key")
+	}
+
+	parsedKey, err := x509.ParsePKIXPublicKey(block.Bytes)
+	if err != nil {
+		pterm.Fatal.Printf("failed to unmarshal pkix data to public key: %v\n", err)
+	}
+
+	return parsedKey.(*ecdsa.PublicKey)
+}

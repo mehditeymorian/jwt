@@ -29,3 +29,17 @@ func GenerateRsaKeys(bits int) (string, string) {
 
 	return string(pemEncodedPub), string(pemEncoded)
 }
+
+func DecodeRsaPublicKey(public string) *rsa.PublicKey {
+	block, _ := pem.Decode([]byte(public))
+	if block == nil || block.Type != "PUBLIC KEY" {
+		pterm.Fatal.Println("failed to decode pem value containing public key")
+	}
+
+	var publicKey rsa.PublicKey
+	if _, err := asn1.Unmarshal(block.Bytes, &publicKey); err != nil {
+		pterm.Fatal.Printf("failed to unmarshal asn1 data to public key: %v\n", err)
+	}
+
+	return &publicKey
+}
