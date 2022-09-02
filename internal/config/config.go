@@ -155,7 +155,7 @@ func (c *Config) PrintMode() {
 		mode = "option mode"
 	}
 
-	pterm.Println(mode)
+	pterm.Info.Println(mode)
 }
 
 func configFileAddress(userPath string) string {
