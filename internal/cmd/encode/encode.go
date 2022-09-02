@@ -40,7 +40,7 @@ func main(c *cobra.Command, _ []string) {
 		encode = flagOptions(c)
 	}
 
-	token, err := jwt.Encode(encode, cfg.EncodeKey())
+	token, err := jwt.Encode(encode, cfg.EncodeKey(encode.Algorithm))
 	if err != nil {
 		pterm.Fatal.Printf("failed to generate JWT token: %v\n", err)
 	}

@@ -62,12 +62,13 @@ func (c *Config) DecodeKey(algorithm string) any {
 	return key
 }
 
-func (c *Config) EncodeKey() any {
+func (c *Config) EncodeKey(algorithm string) any {
 	var err error
 	var key any
 
-	switch c.SigningMethod {
-	case RSA:
+	switch {
+	case matchAlgorithm("(R|P)S.*", algorithm):
+		pterm.Info.Println("Using RSA key for encoding")
 		temp := c.Rsa.PrivateKey
 
 		if temp == "" {
@@ -77,7 +78,9 @@ func (c *Config) EncodeKey() any {
 		}
 
 		key, err = jwt.ParseRSAPrivateKeyFromPEM([]byte(temp))
-	case ECDSA:
+	case matchAlgorithm("ES.*", algorithm):
+		pterm.Info.Println("Using ECDSA key for encoding")
+
 		temp := c.Ecdsa.PrivateKey
 
 		if temp == "" {
@@ -85,7 +88,9 @@ func (c *Config) EncodeKey() any {
 		}
 
 		key, err = jwt.ParseECPrivateKeyFromPEM([]byte(temp))
-	case HMAC:
+	case matchAlgorithm("HS.*", algorithm):
+		pterm.Info.Println("Using HMAC key for encoding")
+
 		temp := c.Hmac.Key
 
 		if temp == "" {
