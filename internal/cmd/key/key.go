@@ -36,5 +36,5 @@ func SaveKey(filename string, content []byte) {
 
 	file.Write(content)
 
-	pterm.Success.Printf("key stored in %s/public.pem\n", dir)
+	pterm.Success.Printf("key stored in %s/$s\n", dir, filename)
 }
