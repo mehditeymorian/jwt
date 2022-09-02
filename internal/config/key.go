@@ -1,7 +1,9 @@
 package config
 
 import (
+	"crypto/ecdsa"
 	"crypto/rsa"
+	"crypto/x509"
 	"encoding/asn1"
 	"encoding/base64"
 	"encoding/pem"
@@ -61,10 +63,21 @@ func (c *Config) DecodeKey(algorithm string) any {
 		if temp == "" {
 			pterm.Warning.Println("Ecdsa key is not available, generating random Ecdsa key")
 
-			key, _ = keyGenerator.GenerateEcdsaKeys("P256")
+			temp, _ = keyGenerator.GenerateEcdsaKeys("P256")
 		}
 
-		key, err = jwt.ParseECPublicKeyFromPEM([]byte(temp))
+		block, _ := pem.Decode([]byte(temp))
+		if block == nil || block.Type != "PUBLIC KEY" {
+			pterm.Fatal.Println("failed to decode pem value containing public key")
+		}
+
+		parsedKey, err := x509.ParsePKIXPublicKey(block.Bytes)
+		if err != nil {
+			pterm.Fatal.Printf("failed to unmarshal pkix data to public key: %v\n", err)
+		}
+
+		key = parsedKey.(*ecdsa.PublicKey)
+		err = nil
 	}
 
 	if err != nil {
