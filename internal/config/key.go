@@ -1,7 +1,10 @@
 package config
 
 import (
+	"crypto/rsa"
+	"encoding/asn1"
 	"encoding/base64"
+	"encoding/pem"
 	"regexp"
 
 	"github.com/golang-jwt/jwt/v4"
@@ -24,7 +27,18 @@ func (c *Config) DecodeKey(algorithm string) any {
 			temp, _ = keyGenerator.GenerateRsaKeys(2048)
 		}
 
-		key, err = jwt.ParseRSAPublicKeyFromPEM([]byte(temp))
+		block, _ := pem.Decode([]byte(temp))
+		if block == nil || block.Type != "PUBLIC KEY" {
+			pterm.Fatal.Println("failed to decode pem value containing public key")
+		}
+
+		var publicKey rsa.PublicKey
+		if _, err := asn1.Unmarshal(block.Bytes, &publicKey); err != nil {
+			pterm.Fatal.Printf("failed to unmarshal asn1 data to public key: %v\n", err)
+		}
+
+		key = &publicKey
+		err = nil
 	case matchAlgorithm("HS.*", algorithm):
 		pterm.Info.Println("Using HMAC key for decoding")
 
