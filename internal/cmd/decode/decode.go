@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 
 	"github.com/AlecAivazis/survey/v2"
+	jwtlib "github.com/golang-jwt/jwt/v4"
 	"github.com/mehditeymorian/jwt/internal/cmd"
 	"github.com/mehditeymorian/jwt/internal/config"
 	"github.com/mehditeymorian/jwt/internal/jwt"
@@ -41,16 +42,24 @@ func decode(c *cobra.Command, args []string) {
 	}
 
 	token, err := jwt.Decode(strToken, cfg)
-	if err != nil {
-		pterm.Fatal.Printf("failed to decode token: %v", err)
+	if token == nil {
+		pterm.Fatal.Println("failed to decode token")
 	}
 
 	if token.Valid {
-		pterm.Success.Println("Token is Valid.")
+		pterm.Success.Println("Token is Valid")
 	} else {
-		pterm.Warning.Println("Token is Invalid.")
+		pterm.Warning.Println("Token is Invalid")
 	}
 
+	if err != nil {
+		pterm.Warning.Println(err.Error())
+	}
+
+	printTokenInfo(token)
+}
+
+func printTokenInfo(token *jwtlib.Token) {
 	result := make(map[string]any)
 	result["headers"] = token.Header
 	result["payload"] = token.Claims
@@ -62,5 +71,6 @@ func decode(c *cobra.Command, args []string) {
 
 	indent = pretty.Color(indent, nil)
 
-	pterm.DefaultBox.WithTitle("Decoded JWT Token").Println(string(indent))
+	pterm.Info.Println("Token Info")
+	pterm.Println(string(indent))
 }

@@ -53,7 +53,7 @@ func Load(path string) *Config {
 
 	// load configuration from file
 	configPath := configFileAddress(path)
-	log.Printf("reading config from %s\n", configPath)
+	pterm.Info.Printf("reading config from %s\n", configPath)
 
 	cfg.loadedPath = configPath
 
