@@ -27,8 +27,6 @@ func Default() Config {
 
 		Interactive: true,
 
-		SigningMethod: RSA,
-
 		Rsa: &Rsa{
 			PublicKey:  "",
 			PrivateKey: "",

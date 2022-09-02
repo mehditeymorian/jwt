@@ -82,7 +82,7 @@ func askOptions(cfg *config.Config) model.Encode {
 			Name: "Algorithm",
 			Prompt: &survey.Select{
 				Message: "Algorithm",
-				Options: cfg.AlgorithmForMethod(),
+				Options: cfg.Algorithms,
 			},
 		},
 	}

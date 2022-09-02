@@ -32,20 +32,17 @@ type Config struct {
 
 	Interactive bool `koanf:"interactive"`
 
-	SigningMethod SigningMethod `koanf:"signing_method"`
-	Rsa           *Rsa          `koanf:"rsa"`
-	Hmac          *HMac         `koanf:"hmac"`
-	Ecdsa         *Ecdsa        `koanf:"ecdsa"`
+	Rsa   *Rsa   `koanf:"rsa"`
+	Hmac  *HMac  `koanf:"hmac"`
+	Ecdsa *Ecdsa `koanf:"ecdsa"`
 }
 
 type saveConfig struct {
 	Interactive bool `koanf:"interactive"`
 
-	SigningMethod SigningMethod `koanf:"signing_method" yaml:"signing_method"`
-	Algorithm     string        `koanf:"algorithm" yaml:"algorithm"`
-	Rsa           *Rsa          `koanf:"rsa" yaml:"rsa"`
-	Hmac          *HMac         `koanf:"hmac" yaml:"hmac"`
-	Ecdsa         *Ecdsa        `koanf:"ecdsa" yaml:"ecdsa"`
+	Rsa   *Rsa   `koanf:"rsa" yaml:"rsa"`
+	Hmac  *HMac  `koanf:"hmac" yaml:"hmac"`
+	Ecdsa *Ecdsa `koanf:"ecdsa" yaml:"ecdsa"`
 }
 
 func Load(path string) *Config {
@@ -104,10 +101,9 @@ func (c *Config) Save() {
 	defer file.Close()
 
 	saveCfg := saveConfig{
-		SigningMethod: c.SigningMethod,
-		Rsa:           c.Rsa,
-		Hmac:          c.Hmac,
-		Ecdsa:         c.Ecdsa,
+		Rsa:   c.Rsa,
+		Hmac:  c.Hmac,
+		Ecdsa: c.Ecdsa,
 	}
 
 	encoder := yaml.NewEncoder(file)
@@ -128,21 +124,10 @@ func removeWhitespace(in string) string {
 func (c *Config) PrintableConfig() map[string]any {
 	result := make(map[string]any)
 
-	var config any
-	switch c.SigningMethod {
-	case RSA:
-		config = c.Rsa
-	case HMAC:
-		config = c.Hmac
-	case ECDSA:
-		config = c.Ecdsa
-	default:
-		pterm.Fatal.Printf("invalid signing_method: %s\n", c.SigningMethod)
-	}
-
-	result["signing_method"] = c.SigningMethod
 	result["interactive"] = c.Interactive
-	result[string(c.SigningMethod)] = config
+	result[string(RSA)] = c.Rsa
+	result[string(HMAC)] = c.Hmac
+	result[string(ECDSA)] = c.Ecdsa
 
 	return result
 }
@@ -161,36 +146,6 @@ func (c *Config) Print() {
 	`
 	log.Printf(cfgStrTemplate, string(indent))
 
-}
-
-func (c *Config) AlgorithmForMethod() []string {
-	prefix := "-"
-
-	switch c.SigningMethod {
-	case RSA:
-		prefix = "RS"
-	case HMAC:
-		prefix = "HS"
-	case ECDSA:
-		prefix = "ES"
-	default:
-		pterm.Fatal.Println("failed to find algorithms for signing method")
-	}
-
-	result := make([]string, 0)
-
-	pattern, err := regexp.Compile(prefix + ".*")
-	if err != nil {
-		pterm.Fatal.Printf("failed to search for algorithms: %v\n", err)
-	}
-
-	for _, alg := range c.Algorithms {
-		if pattern.MatchString(alg) {
-			result = append(result, alg)
-		}
-	}
-
-	return result
 }
 
 func (c *Config) PrintMode() {
