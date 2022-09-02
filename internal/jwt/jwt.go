@@ -1,7 +1,6 @@
 package jwt
 
 import (
-	"errors"
 	"fmt"
 	"time"
 
@@ -37,9 +36,5 @@ func Decode(strToken string, cfg *config.Config) (*jwt.Token, error) {
 		return cfg.DecodeKey(token.Method.Alg()), nil
 	})
 
-	if err != nil && !errors.Is(err, jwt.ErrSignatureInvalid) {
-		return nil, fmt.Errorf("failed to parse token: %w", err)
-	}
-
-	return token, nil
+	return token, err
 }
