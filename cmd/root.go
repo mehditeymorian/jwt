@@ -13,6 +13,7 @@ import (
 	"github.com/mehditeymorian/jwt/internal/cmd/edit"
 	"github.com/mehditeymorian/jwt/internal/cmd/encode"
 	"github.com/mehditeymorian/jwt/internal/cmd/key"
+	"github.com/mehditeymorian/jwt/internal/cmd/set"
 
 	"github.com/spf13/cobra"
 )
@@ -33,6 +34,7 @@ func Execute() {
 		configure.Command(),
 		edit.Command(),
 		key.Command(),
+		set.Command(),
 	)
 
 	if err := rootCmd.Execute(); err != nil {
