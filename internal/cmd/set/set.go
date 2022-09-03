@@ -45,6 +45,11 @@ func set(c *cobra.Command, args []string) {
 			pterm.Fatal.Printf("%s field is not specified\n", keys[0])
 		}
 		setHmac(cfg, keys[1], args)
+	case "ecdsa":
+		if len(keys) < 2 {
+			pterm.Fatal.Printf("%s field is not specified\n", keys[0])
+		}
+		setEcdsa(cfg, keys[1], args)
 	default:
 		pterm.Warning.Println("field %s not found")
 	}
@@ -85,4 +90,15 @@ func setHmac(cfg *config.Config, field string, args []string) {
 		cfg.Hmac.Key = args[1]
 	}
 
+}
+
+func setEcdsa(cfg *config.Config, field string, args []string) {
+	switch field {
+	case "public_key":
+		cfg.Ecdsa.PublicKey = args[1]
+	case "private_key":
+		cfg.Ecdsa.PrivateKey = args[1]
+	default:
+		pterm.Warning.Printf("field %s is not found\n", args[0])
+	}
 }
