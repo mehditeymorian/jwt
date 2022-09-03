@@ -40,6 +40,11 @@ func set(c *cobra.Command, args []string) {
 			pterm.Fatal.Printf("%s field is not specified\n", keys[0])
 		}
 		setRsa(cfg, keys[1], args)
+	case "hmac":
+		if len(keys) < 2 {
+			pterm.Fatal.Printf("%s field is not specified\n", keys[0])
+		}
+		setHmac(cfg, keys[1], args)
 	default:
 		pterm.Warning.Println("field %s not found")
 	}
@@ -65,4 +70,19 @@ func setRsa(cfg *config.Config, field string, args []string) {
 	default:
 		pterm.Warning.Printf("field %s is not found\n", args[0])
 	}
+}
+
+func setHmac(cfg *config.Config, field string, args []string) {
+	switch field {
+	case "base64":
+		base64, err := strconv.ParseBool(args[1])
+		if err != nil {
+			pterm.Fatal.Println("failed to parse base64 value")
+		}
+
+		cfg.Hmac.Base64Encoded = base64
+	case "key":
+		cfg.Hmac.Key = args[1]
+	}
+
 }
