@@ -35,6 +35,13 @@ func set(c *cobra.Command, args []string) {
 	switch keys[0] {
 	case "interactive":
 		setInteractive(cfg, args)
+	case "rsa":
+		if len(keys) < 2 {
+			pterm.Fatal.Printf("%s field is not specified\n", keys[0])
+		}
+		setRsa(cfg, keys[1], args)
+	default:
+		pterm.Warning.Println("field %s not found")
 	}
 
 	cfg.Save()
@@ -47,4 +54,15 @@ func setInteractive(cfg *config.Config, args []string) {
 	}
 
 	cfg.Interactive = interactive
+}
+
+func setRsa(cfg *config.Config, field string, args []string) {
+	switch field {
+	case "public_key":
+		cfg.Rsa.PublicKey = args[1]
+	case "private_key":
+		cfg.Rsa.PrivateKey = args[1]
+	default:
+		pterm.Warning.Printf("field %s is not found\n", args[0])
+	}
 }
