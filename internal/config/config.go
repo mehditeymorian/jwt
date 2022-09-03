@@ -101,9 +101,10 @@ func (c *Config) Save() {
 	defer file.Close()
 
 	saveCfg := saveConfig{
-		Rsa:   c.Rsa,
-		Hmac:  c.Hmac,
-		Ecdsa: c.Ecdsa,
+		Interactive: c.Interactive,
+		Rsa:         c.Rsa,
+		Hmac:        c.Hmac,
+		Ecdsa:       c.Ecdsa,
 	}
 
 	encoder := yaml.NewEncoder(file)
