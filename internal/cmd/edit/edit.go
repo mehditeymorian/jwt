@@ -12,8 +12,8 @@ import (
 func Command() *cobra.Command {
 	c := &cobra.Command{
 		Use:     "edit",
-		Short:   "edit jwt config",
-		Example: "jwt config edit",
+		Short:   "open jwt default config in vim",
+		Example: "jwt edit",
 		Run:     edit,
 	}
 

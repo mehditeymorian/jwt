@@ -8,10 +8,10 @@ import (
 
 func Command() *cobra.Command {
 	c := &cobra.Command{
-		Use:   "config",
-		Short: "config jwt cli",
-		Long:  "config jwt cli",
-		Run:   view,
+		Use:     "config",
+		Short:   "view jwt configuration",
+		Example: "jwt config",
+		Run:     view,
 	}
 
 	return c

@@ -17,7 +17,6 @@ func Command() *cobra.Command {
 	command := &cobra.Command{
 		Use:     "decode",
 		Short:   "decode jwt token",
-		Long:    "decode jwt token",
 		Example: "jwt decode <TOKEN>",
 		Run:     decode,
 	}

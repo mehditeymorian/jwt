@@ -14,7 +14,7 @@ import (
 func Command() *cobra.Command {
 	root := &cobra.Command{ //nolint:exhaustivestruct
 		Use:     "encode",
-		Short:   "Create JWT Token",
+		Short:   "encode standards claims into jwt token",
 		Example: `jwt encode -e 2h -s finance -i "jwt-cli" -a people -A RS512`,
 		Run:     main,
 	}
