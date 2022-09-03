@@ -51,7 +51,7 @@ func set(c *cobra.Command, args []string) {
 		}
 		setEcdsa(cfg, keys[1], args)
 	default:
-		pterm.Fatal.Println("field %s not found")
+		pterm.Fatal.Printf("field %s not found\n", args[0])
 	}
 
 	pterm.Success.Printf("field %s set to %s\n", args[0], args[1])
