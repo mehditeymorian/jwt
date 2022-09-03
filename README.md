@@ -10,7 +10,7 @@ JWT CLI
 </a>&nbsp;
 <img src="https://img.shields.io/badge/license-apache_2.0-red?style=for-the-badge&logo=none" alt="license" />
 
-<img src="https://img.shields.io/badge/Version-1.0.0-informational?style=for-the-badge&logo=none" alt="version" />
+<img src="https://img.shields.io/badge/Version-1.1.1-informational?style=for-the-badge&logo=none" alt="version" />
 </p>
 
 # Installation
@@ -19,28 +19,17 @@ go install github.com/mehditeymorian/jwt
 ```
 
 # Commands
+[![asciicast](https://asciinema.org/a/518698.svg)](https://asciinema.org/a/518698)
 ```bash
-# create new token
-jwt encode
-
-# decode token
-jwt decode
-
-# view configurations
-jwt config
-jwt config view
-
-# open config in vim
-jwt config edit
+# run to see all commands
+jwt
 ```
-**Note**: setup your configuration before decode or encode.
 
 # Configuration
-Only `algorithm` and `signing_method` and the config related to the `signing_method` are necessary. 
-For instance, in the following configuration, because the signing_method is equal to rsa, the rsa config will be used to decode and encode.
+
+Different key will be used for encode or decode base on the token algorithm. The `interactive` field indicates if user input is taken from options or user choose from a set of prompts.
 ```yaml
-signing_method: rsa
-algorithm: RS512
+interactive: true
 rsa:
   public_key: |-
     key
