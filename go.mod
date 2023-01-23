@@ -6,7 +6,7 @@ require (
 	github.com/AlecAivazis/survey/v2 v2.3.6
 	github.com/golang-jwt/jwt/v4 v4.4.3
 	github.com/knadh/koanf v1.4.5
-	github.com/pterm/pterm v0.12.53
+	github.com/pterm/pterm v0.12.54
 	github.com/spf13/cobra v1.6.1
 	github.com/tidwall/pretty v1.2.1
 	gopkg.in/yaml.v3 v3.0.1
@@ -14,7 +14,7 @@ require (
 
 require (
 	atomicgo.dev/cursor v0.1.1 // indirect
-	atomicgo.dev/keyboard v0.2.8 // indirect
+	atomicgo.dev/keyboard v0.2.9 // indirect
 	github.com/containerd/console v1.0.3 // indirect
 	github.com/fatih/structs v1.1.0 // indirect
 	github.com/fsnotify/fsnotify v1.4.9 // indirect
