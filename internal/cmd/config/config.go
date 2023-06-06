@@ -1,8 +1,8 @@
-package configure
+package config
 
 import (
 	"github.com/mehditeymorian/jwt/internal/cmd"
-	"github.com/mehditeymorian/jwt/internal/cmd/configure/edit"
+	"github.com/mehditeymorian/jwt/internal/cmd/config/edit"
 	"github.com/mehditeymorian/jwt/internal/config"
 	"github.com/spf13/cobra"
 )
