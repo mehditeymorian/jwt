@@ -15,7 +15,7 @@ JWT CLI
 
 # Installation
 ```bash
-go install github.com/mehditeymorian/jwt
+go install github.com/mehditeymorian/jwt/v2@latest
 ```
 
 Commands are as below:
