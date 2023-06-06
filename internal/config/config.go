@@ -21,7 +21,7 @@ const (
 	PREFIX = "JWT"
 	Name   = "jwt"
 	Dir    = "/etc/jwt/"
-	Path   = "/etc/jwt/config.yaml"
+	Path   = "/etc/jwt/.jwt.yaml"
 )
 
 type Config struct {
@@ -169,7 +169,7 @@ func configFileAddress(userPath string) string {
 		return Path
 	}
 
-	pattern, err := regexp.Compile("jwt-config\\.ya*ml")
+	pattern, err := regexp.Compile("\\.jwt\\.ya*ml")
 	if err != nil {
 		return Path
 	}
