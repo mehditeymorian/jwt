@@ -12,8 +12,6 @@ import (
 	"github.com/mehditeymorian/jwt/internal/cmd/decode"
 	"github.com/mehditeymorian/jwt/internal/cmd/encode"
 	"github.com/mehditeymorian/jwt/internal/cmd/gen"
-	"github.com/mehditeymorian/jwt/internal/cmd/set"
-
 	"github.com/spf13/cobra"
 )
 
@@ -32,7 +30,6 @@ func Execute() {
 		decode.Command(),
 		config.Command(),
 		gen.Command(),
-		set.Command(),
 	)
 
 	if err := rootCmd.Execute(); err != nil {

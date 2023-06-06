@@ -14,7 +14,7 @@ func Command() *cobra.Command {
 	c := &cobra.Command{
 		Use:     "set",
 		Short:   "set config",
-		Example: "jwt set interactive true",
+		Example: "jwt config set interactive true",
 		Run:     set,
 	}
 

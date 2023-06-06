@@ -3,6 +3,7 @@ package config
 import (
 	"github.com/mehditeymorian/jwt/internal/cmd"
 	"github.com/mehditeymorian/jwt/internal/cmd/config/edit"
+	"github.com/mehditeymorian/jwt/internal/cmd/config/set"
 	"github.com/mehditeymorian/jwt/internal/config"
 	"github.com/spf13/cobra"
 )
@@ -17,6 +18,7 @@ func Command() *cobra.Command {
 
 	c.AddCommand(
 		edit.Command(),
+		set.Command(),
 	)
 
 	return c
