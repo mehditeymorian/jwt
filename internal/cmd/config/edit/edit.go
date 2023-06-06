@@ -27,6 +27,8 @@ func edit(c *cobra.Command, _ []string) {
 func openVim(c *cobra.Command) {
 	configPath := cmd.GetConfigPath(c)
 
+	configPath = config.FileAddress(configPath)
+
 	if _, err := os.Stat(configPath); err != nil {
 		cmd := exec.Command("sudo", "mkdir", "-p", config.Dir)
 		cmd.Stdin = os.Stdin

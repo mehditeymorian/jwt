@@ -49,7 +49,7 @@ func Load(path string) *Config {
 	var cfg Config
 
 	// load configuration from file
-	configPath := configFileAddress(path)
+	configPath := FileAddress(path)
 	pterm.Info.Printf("reading config from %s\n", configPath)
 
 	cfg.loadedPath = configPath
@@ -159,7 +159,7 @@ func (c *Config) PrintMode() {
 	pterm.Info.Println(mode)
 }
 
-func configFileAddress(userPath string) string {
+func FileAddress(userPath string) string {
 	if len(userPath) != 0 {
 		return userPath
 	}
