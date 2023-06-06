@@ -10,7 +10,7 @@ JWT CLI
 </a>&nbsp;
 <img src="https://img.shields.io/badge/license-apache_2.0-red?style=for-the-badge&logo=none" alt="license" />
 
-<img src="https://img.shields.io/badge/Version-1.1.2-informational?style=for-the-badge&logo=none" alt="version" />
+<img src="https://img.shields.io/badge/Version-2.0.0-informational?style=for-the-badge&logo=none" alt="version" />
 </p>
 
 # Installation
@@ -18,16 +18,19 @@ JWT CLI
 go install github.com/mehditeymorian/jwt
 ```
 
-# Commands
-[![asciicast](https://asciinema.org/a/518698.svg)](https://asciinema.org/a/518698)
+Commands are as below:
+- **config**: view, edit, and set config
+- **encode**: create standard JWT token
+- **decode**: decode a JWT token
+- **gen**: generate different keys such as rsa, hmac, ecdsa
+- 
 ```bash
-# run to see all commands
-jwt
+# run the following command to see the full details.
+jwt help
 ```
 
 # Configuration
-
-Different key will be used for encode or decode base on the token algorithm. The `interactive` field indicates if user input is taken from options or user choose from a set of prompts.
+The `JWT` use corresponding set of keys when you use different commands. For example, it will use rsa keys if you use command `jwt gen rsa`.
 ```yaml
 interactive: true
 rsa:
@@ -45,14 +48,18 @@ ecdsa:
     key
 ```
 
+> Note: if `interactive` config set to true, the command parameters will be taken from user interactively instead of reading them from command options.
+
+> use `-c` option to pass config file address.
+
 ## Set Config
-1. Use `-c` option to pass config path
-2. Put `jwt-config.(yaml|yml)` where you run the jwt cli
-3. Default configuration, which is located at `/etc/jwt/config.yaml`
+The order of reading config is as follows if config is not specified as option:
+1. `.jwt.(yaml|yml)` file in the path where the `JWT` is running.
+2. `/etc/jwt/.jwt.(yaml|yml)` file as default configuration. if config file is not present, one will be created.
 
 
 # Contribution
-Any contribution in any form is welcomed. Open an issue to discuss about it.
+Any contribution in any form is welcomed. Open an issue to discuss it.
 
 # Contact
 - [Email](mailto:mehditeymorian322@gmail.com)
