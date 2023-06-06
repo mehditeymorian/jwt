@@ -13,7 +13,7 @@ func Command() *cobra.Command {
 	c := &cobra.Command{
 		Use:     "edit",
 		Short:   "open jwt default config in vim",
-		Example: "jwt edit",
+		Example: "jwt config edit",
 		Run:     edit,
 	}
 
