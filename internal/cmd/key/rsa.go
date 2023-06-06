@@ -1,6 +1,7 @@
 package key
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/AlecAivazis/survey/v2"
@@ -41,10 +42,10 @@ func rsa(c *cobra.Command, _ []string) {
 
 	publicKey, privateKey := keyGenerator.GenerateRsaKeys(bits)
 
-	publicBox := pterm.DefaultBox.WithTitle("Public Key").Sprint(publicKey)
-	privateBox := pterm.DefaultBox.WithTitle("Private Key").Sprint(privateKey)
-	render, _ := pterm.DefaultPanel.WithPanels(pterm.Panels{{{Data: publicBox}, {Data: privateBox}}}).Srender()
-	pterm.Println(render)
+	pterm.Info.Println("Public Key")
+	fmt.Println(publicKey)
+	pterm.Info.Println("Private Key")
+	fmt.Println(privateKey)
 
 	if saveFile {
 		SaveKey("/public.pem", []byte(publicKey))
