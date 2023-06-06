@@ -1,4 +1,4 @@
-module github.com/mehditeymorian/jwt
+module github.com/mehditeymorian/jwt/v2
 
 go 1.18
 

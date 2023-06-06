@@ -5,9 +5,9 @@ import (
 
 	"github.com/AlecAivazis/survey/v2"
 	jwtlib "github.com/golang-jwt/jwt/v4"
-	"github.com/mehditeymorian/jwt/internal/cmd"
-	"github.com/mehditeymorian/jwt/internal/config"
-	"github.com/mehditeymorian/jwt/internal/jwt"
+	"github.com/mehditeymorian/jwt/v2/internal/cmd"
+	"github.com/mehditeymorian/jwt/v2/internal/config"
+	"github.com/mehditeymorian/jwt/v2/internal/jwt"
 	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
 	"github.com/tidwall/pretty"

@@ -1,10 +1,10 @@
 package encode
 
 import (
-	"github.com/mehditeymorian/jwt/internal/cmd"
-	"github.com/mehditeymorian/jwt/internal/config"
-	"github.com/mehditeymorian/jwt/internal/jwt"
-	"github.com/mehditeymorian/jwt/internal/model"
+	"github.com/mehditeymorian/jwt/v2/internal/cmd"
+	"github.com/mehditeymorian/jwt/v2/internal/config"
+	"github.com/mehditeymorian/jwt/v2/internal/jwt"
+	"github.com/mehditeymorian/jwt/v2/internal/model"
 	"github.com/pterm/pterm"
 
 	"github.com/AlecAivazis/survey/v2"

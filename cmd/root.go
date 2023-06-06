@@ -7,11 +7,11 @@ package cmd
 import (
 	"os"
 
-	"github.com/mehditeymorian/jwt/internal/cmd"
-	"github.com/mehditeymorian/jwt/internal/cmd/config"
-	"github.com/mehditeymorian/jwt/internal/cmd/decode"
-	"github.com/mehditeymorian/jwt/internal/cmd/encode"
-	"github.com/mehditeymorian/jwt/internal/cmd/gen"
+	"github.com/mehditeymorian/jwt/v2/internal/cmd"
+	"github.com/mehditeymorian/jwt/v2/internal/cmd/config"
+	"github.com/mehditeymorian/jwt/v2/internal/cmd/decode"
+	"github.com/mehditeymorian/jwt/v2/internal/cmd/encode"
+	"github.com/mehditeymorian/jwt/v2/internal/cmd/gen"
 	"github.com/spf13/cobra"
 )
 

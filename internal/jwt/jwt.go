@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/mehditeymorian/jwt/internal/config"
-	"github.com/mehditeymorian/jwt/internal/model"
+	"github.com/mehditeymorian/jwt/v2/internal/config"
+	"github.com/mehditeymorian/jwt/v2/internal/model"
 )
 
 func Encode(encode model.Encode, key any) (string, error) {

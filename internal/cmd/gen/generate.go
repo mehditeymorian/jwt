@@ -3,7 +3,7 @@ package gen
 import (
 	"os"
 
-	"github.com/mehditeymorian/jwt/internal/cmd"
+	"github.com/mehditeymorian/jwt/v2/internal/cmd"
 	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
 )

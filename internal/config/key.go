@@ -5,7 +5,7 @@ import (
 	"regexp"
 
 	"github.com/golang-jwt/jwt/v4"
-	keyGenerator "github.com/mehditeymorian/jwt/internal/key"
+	keyGenerator "github.com/mehditeymorian/jwt/v2/internal/key"
 	"github.com/pterm/pterm"
 )
 

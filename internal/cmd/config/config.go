@@ -1,10 +1,10 @@
 package config
 
 import (
-	"github.com/mehditeymorian/jwt/internal/cmd"
-	"github.com/mehditeymorian/jwt/internal/cmd/config/edit"
-	"github.com/mehditeymorian/jwt/internal/cmd/config/set"
-	"github.com/mehditeymorian/jwt/internal/config"
+	"github.com/mehditeymorian/jwt/v2/internal/cmd"
+	"github.com/mehditeymorian/jwt/v2/internal/cmd/config/edit"
+	"github.com/mehditeymorian/jwt/v2/internal/cmd/config/set"
+	"github.com/mehditeymorian/jwt/v2/internal/config"
 	"github.com/spf13/cobra"
 )
 

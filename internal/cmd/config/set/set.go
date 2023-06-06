@@ -4,8 +4,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/mehditeymorian/jwt/internal/cmd"
-	"github.com/mehditeymorian/jwt/internal/config"
+	"github.com/mehditeymorian/jwt/v2/internal/cmd"
+	"github.com/mehditeymorian/jwt/v2/internal/config"
 	"github.com/pterm/pterm"
 	"github.com/spf13/cobra"
 )
