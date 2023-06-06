@@ -1,4 +1,4 @@
-package key
+package gen
 
 import (
 	"os"
@@ -10,9 +10,9 @@ import (
 
 func Command() *cobra.Command {
 	c := &cobra.Command{
-		Use:     "key",
+		Use:     "gen",
 		Short:   "generate different jwt keys",
-		Example: "jwt key rsa|hmac|ecdsa",
+		Example: "jwt gen rsa|hmac|ecdsa",
 	}
 	cmd.SetKeyFlags(c)
 

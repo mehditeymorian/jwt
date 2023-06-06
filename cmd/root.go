@@ -11,7 +11,7 @@ import (
 	"github.com/mehditeymorian/jwt/internal/cmd/config"
 	"github.com/mehditeymorian/jwt/internal/cmd/decode"
 	"github.com/mehditeymorian/jwt/internal/cmd/encode"
-	"github.com/mehditeymorian/jwt/internal/cmd/key"
+	"github.com/mehditeymorian/jwt/internal/cmd/gen"
 	"github.com/mehditeymorian/jwt/internal/cmd/set"
 
 	"github.com/spf13/cobra"
@@ -31,7 +31,7 @@ func Execute() {
 		encode.Command(),
 		decode.Command(),
 		config.Command(),
-		key.Command(),
+		gen.Command(),
 		set.Command(),
 	)
 
