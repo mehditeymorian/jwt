@@ -3,7 +3,7 @@ module github.com/mehditeymorian/jwt/v2
 go 1.18
 
 require (
-	github.com/AlecAivazis/survey/v2 v2.3.6
+	github.com/AlecAivazis/survey/v2 v2.3.7
 	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/knadh/koanf v1.5.0
 	github.com/pterm/pterm v0.12.62
